@@ -77,6 +77,7 @@ export const questionRouter = router({
         items,
       };
     }),
+  /** @deprecated */
   bulk: adminProcedure
     .input(
       z.object({
@@ -188,5 +189,143 @@ export const questionRouter = router({
       }
 
       return {};
+    }),
+
+  addBulkQuestion: adminProcedure
+    .input(
+      z.object({
+        lessonId: z.string().uuid(),
+        questions: z.array(
+          z.object({
+            id: z.string().uuid().optional(),
+            number: z.number().min(1),
+            question: z.string(),
+          })
+        ),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const questions = await prisma.question.createMany({
+        data: input.questions.map((question) => ({
+          id: question.id,
+          number: question.number,
+          question: question.question,
+          lessonId: input.lessonId,
+        })),
+      });
+
+      return questions;
+    }),
+  addBulkAnswer: adminProcedure
+    .input(
+      z.object({
+        answers: z.array(
+          z.object({
+            id: z.string().uuid().optional(),
+            number: z.number().min(1),
+            text: z.string(),
+            isCorrect: z.boolean(),
+            questionId: z.string().uuid(),
+          })
+        ),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const answers = await prisma.answer.createMany({
+        data: input.answers.map((answer) => ({
+          id: answer.id,
+          number: answer.number,
+          answer: answer.text,
+          isCorrect: answer.isCorrect,
+          questionId: answer.questionId,
+        })),
+      });
+
+      return answers;
+    }),
+  deleteBulkQuestion: adminProcedure
+    .input(
+      z.object({
+        ids: z.array(z.string().uuid()),
+      })
+    )
+    .mutation(async ({ input }) => {
+      await prisma.question.deleteMany({
+        where: {
+          id: {
+            in: input.ids,
+          },
+        },
+      });
+    }),
+  deleteBulkAnswer: adminProcedure
+    .input(
+      z.object({
+        ids: z.array(z.string().uuid()),
+      })
+    )
+    .mutation(async ({ input }) => {
+      await prisma.answer.deleteMany({
+        where: {
+          id: {
+            in: input.ids,
+          },
+        },
+      });
+    }),
+  updateBulkQuestion: adminProcedure
+    .input(
+      z.object({
+        lessonId: z.string().uuid(),
+        questions: z.array(
+          z.object({
+            id: z.string().uuid().optional(),
+            number: z.number().min(1),
+            question: z.string(),
+          })
+        ),
+      })
+    )
+    .mutation(async ({ input }) => {
+      for (const question of input.questions) {
+        await prisma.question.update({
+          where: {
+            id: question.id,
+          },
+          data: {
+            number: question.number,
+            question: question.question,
+          },
+        });
+      }
+    }),
+  updateBulkAnswer: adminProcedure
+    .input(
+      z.object({
+        answers: z.array(
+          z.object({
+            id: z.string().uuid().optional(),
+            number: z.number().min(1),
+            text: z.string(),
+            isCorrect: z.boolean(),
+            questionId: z.string().uuid(),
+          })
+        ),
+      })
+    )
+    .mutation(async ({ input }) => {
+      for (const answer of input.answers) {
+        await prisma.answer.update({
+          where: {
+            id: answer.id,
+          },
+          data: {
+            number: answer.number,
+            answer: answer.text,
+            isCorrect: answer.isCorrect,
+            questionId: answer.questionId,
+          },
+        });
+      }
     }),
 });
