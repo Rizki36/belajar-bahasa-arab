@@ -77,119 +77,6 @@ export const questionRouter = router({
         items,
       };
     }),
-  /** @deprecated */
-  bulk: adminProcedure
-    .input(
-      z.object({
-        lessonId: z.string().uuid(),
-        items: z.array(
-          z.object({
-            id: z.string().uuid(),
-            number: z.number().min(1),
-            question: z.string(),
-            answers: z.array(
-              z.object({
-                id: z.string().uuid(),
-                number: z.number().min(1),
-                text: z.string(),
-                correct: z.boolean(),
-              })
-            ),
-          })
-        ),
-      })
-    )
-    .mutation(async ({ input }) => {
-      // get all questions
-      const questions = await prisma.question.findMany({
-        where: {
-          lessonId: input.lessonId,
-        },
-      });
-
-      // check if existing question not in items then delete
-      const deleteQuestionsId: string[] = [];
-      for (const question of questions) {
-        if (!input.items.some((item) => item.id === question.id)) {
-          deleteQuestionsId.push(question.id);
-        }
-      }
-      await prisma.question.deleteMany({
-        where: {
-          id: {
-            in: deleteQuestionsId,
-          },
-        },
-      });
-
-      // check if existing answer not in items then delete
-      const answers = await prisma.answer.findMany({
-        where: {
-          question: {
-            lessonId: input.lessonId,
-          },
-        },
-      });
-      const deleteAnswersId: string[] = [];
-      const flattenAnswers = input.items.flatMap((item) => item.answers);
-      for (const answer of answers) {
-        if (!flattenAnswers.some((item) => item.id === answer.id)) {
-          deleteAnswersId.push(answer.id);
-        }
-      }
-      await prisma.answer.deleteMany({
-        where: {
-          id: {
-            in: deleteAnswersId,
-          },
-        },
-      });
-
-      // create or update questions
-      for (const item of input.items) {
-        await prisma.question.upsert({
-          where: {
-            id: item.id,
-          },
-          update: {
-            number: item.number,
-            question: item.question,
-          },
-          create: {
-            id: item.id,
-            number: item.number,
-            question: item.question,
-            lesson: {
-              connect: {
-                id: input.lessonId,
-              },
-            },
-          },
-        });
-
-        // create or update answers
-        for (const answer of item.answers) {
-          await prisma.answer.upsert({
-            where: {
-              id: answer.id,
-            },
-            update: {
-              answer: answer.text,
-              isCorrect: answer.correct,
-              number: answer.number,
-            },
-            create: {
-              answer: answer.text,
-              isCorrect: answer.correct,
-              number: answer.number,
-              questionId: item.id,
-            },
-          });
-        }
-      }
-
-      return {};
-    }),
 
   addBulkQuestion: adminProcedure
     .input(
@@ -246,14 +133,14 @@ export const questionRouter = router({
   deleteBulkQuestion: adminProcedure
     .input(
       z.object({
-        ids: z.array(z.string().uuid()),
+        questions: z.array(z.object({ id: z.string().uuid() })),
       })
     )
     .mutation(async ({ input }) => {
       await prisma.question.deleteMany({
         where: {
           id: {
-            in: input.ids,
+            in: input.questions.map((question) => question.id),
           },
         },
       });
@@ -261,14 +148,14 @@ export const questionRouter = router({
   deleteBulkAnswer: adminProcedure
     .input(
       z.object({
-        ids: z.array(z.string().uuid()),
+        answers: z.array(z.object({ id: z.string().uuid() })),
       })
     )
     .mutation(async ({ input }) => {
       await prisma.answer.deleteMany({
         where: {
           id: {
-            in: input.ids,
+            in: input.answers.map((answer) => answer.id),
           },
         },
       });
