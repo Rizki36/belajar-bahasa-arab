@@ -6,7 +6,6 @@ const nextConfig = {
   images: {
     domains: ["lh3.googleusercontent.com"],
   },
-  swcMinify: true, // Enable SWC minification for improved performance
   compiler: {
     removeConsole: process.env.NODE_ENV !== "development", // Remove console.log in production
   },
