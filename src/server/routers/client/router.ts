@@ -7,9 +7,9 @@ import { listBabRoute } from "./listBab";
 import { selfRoute } from "./self";
 
 export const studentRouter = router({
-  self: selfRoute,
-  learn: learnRoute,
-  listBab: listBabRoute,
-  lesson: lessonRoute,
-  leaderboard: leaderboardRoute,
+	self: selfRoute,
+	learn: learnRoute,
+	listBab: listBabRoute,
+	lesson: lessonRoute,
+	leaderboard: leaderboardRoute,
 });

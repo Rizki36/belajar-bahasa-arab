@@ -8,31 +8,31 @@ import useAccessBab from "@/modules/client/hooks/useAccessBab";
 import { NextPageWithLayout } from "@/pages/_app";
 
 const SpecificBabPage: NextPageWithLayout = () => {
-  const router = useRouter();
-  const babNumber = Number(router.query.babNumber as string);
+	const router = useRouter();
+	const babNumber = Number(router.query.babNumber as string);
 
-  const { loading, shouldRedirect } = useAccessBab({ babNumber });
+	const { loading, shouldRedirect } = useAccessBab({ babNumber });
 
-  if (loading || shouldRedirect) {
-    return (
-      <div className="w-full h-screen flex items-center justify-center">
-        <Spinner size="large" />
-      </div>
-    );
-  }
+	if (loading || shouldRedirect) {
+		return (
+			<div className="w-full h-screen flex items-center justify-center">
+				<Spinner size="large" />
+			</div>
+		);
+	}
 
-  return (
-    <>
-      <Head>
-        <title>Mudah belajar ilmu shorof</title>
-      </Head>
-      <Bab babNumber={babNumber} />
-    </>
-  );
+	return (
+		<>
+			<Head>
+				<title>Mudah belajar ilmu shorof</title>
+			</Head>
+			<Bab babNumber={babNumber} />
+		</>
+	);
 };
 
 SpecificBabPage.getLayout = (page) => {
-  return <ClientMainLayout>{page}</ClientMainLayout>;
+	return <ClientMainLayout>{page}</ClientMainLayout>;
 };
 
 export default SpecificBabPage;

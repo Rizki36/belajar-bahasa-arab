@@ -7,17 +7,17 @@ import { z } from "zod";
 
 /*eslint sort-keys: "error"*/
 const envSchema = z.object({
-  DATABASE_URL: z.string().url(),
-  NODE_ENV: z.enum(["development", "test", "production"]),
+	DATABASE_URL: z.string().url(),
+	NODE_ENV: z.enum(["development", "test", "production"]),
 });
 
 const envReturn = envSchema.safeParse(process.env);
 
 if (!envReturn.success) {
-  throw new Error(
-    "❌ Invalid environment variables: " +
-      JSON.stringify(envReturn.error.format(), null, 4)
-  );
+	throw new Error(
+		"❌ Invalid environment variables: " +
+			JSON.stringify(envReturn.error.format(), null, 4),
+	);
 }
 
 const env = envReturn.data;

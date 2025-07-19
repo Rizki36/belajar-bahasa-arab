@@ -7,7 +7,7 @@ import { getServerAuthSession } from "./auth";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface CreateContextOptions {
-  session: Session | null;
+	session: Session | null;
 }
 
 /**
@@ -15,10 +15,10 @@ interface CreateContextOptions {
  * This is useful for testing when we don't want to mock Next.js' request/response
  */
 export async function createContextInner(opts: CreateContextOptions) {
-  return {
-    session: opts.session,
-    prisma,
-  };
+	return {
+		session: opts.session,
+		prisma,
+	};
 }
 
 export type Context = Awaited<ReturnType<typeof createContextInner>>;
@@ -28,14 +28,14 @@ export type Context = Awaited<ReturnType<typeof createContextInner>>;
  * @link https://trpc.io/docs/v11/context
  */
 export async function createContext(
-  opts: trpcNext.CreateNextContextOptions
+	opts: trpcNext.CreateNextContextOptions,
 ): Promise<Context> {
-  const { req, res } = opts;
+	const { req, res } = opts;
 
-  // Get the session from the server using the getServerSession wrapper function
-  const session = await getServerAuthSession({ req, res });
+	// Get the session from the server using the getServerSession wrapper function
+	const session = await getServerAuthSession({ req, res });
 
-  return createContextInner({
-    session,
-  });
+	return createContextInner({
+		session,
+	});
 }

@@ -4,8 +4,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 export const getServerAuthSession = async (ctx: {
-  req: GetServerSidePropsContext["req"];
-  res: GetServerSidePropsContext["res"];
+	req: GetServerSidePropsContext["req"];
+	res: GetServerSidePropsContext["res"];
 }) => {
-  return await getServerSession(ctx.req, ctx.res, authOptions);
+	return await getServerSession(ctx.req, ctx.res, authOptions);
 };

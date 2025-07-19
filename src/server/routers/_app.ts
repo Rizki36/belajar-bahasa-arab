@@ -7,9 +7,9 @@ import { studentRouter } from "./client/router";
 import { protectedRouter } from "./protected";
 
 export const appRouter = router({
-  admin: adminRouter,
-  student: studentRouter,
-  protected: protectedRouter,
+	admin: adminRouter,
+	student: studentRouter,
+	protected: protectedRouter,
 });
 
 export const createCaller = createCallerFactory(appRouter);

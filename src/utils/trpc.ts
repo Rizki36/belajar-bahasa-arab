@@ -1,5 +1,8 @@
-import { loggerLink, unstable_httpBatchStreamLink } from "@trpc/client";
-import { httpBatchLink } from "@trpc/client";
+import {
+	httpBatchLink,
+	loggerLink,
+	unstable_httpBatchStreamLink,
+} from "@trpc/client";
 import { createTRPCNext } from "@trpc/next";
 import { ssrPrepass } from "@trpc/next/ssrPrepass";
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
@@ -8,6 +11,7 @@ import type { NextPageContext } from "next";
 import { AppRouter } from "@/server/routers/_app";
 
 import { transformer } from "./transformer";
+
 // ℹ️ Type-only import:
 // https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#type-only-imports-and-export
 

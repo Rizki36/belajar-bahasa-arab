@@ -1,5 +1,5 @@
-import { router, studentProcedure } from "@/server/trpc";
 import { z } from "zod";
+import { router, studentProcedure } from "@/server/trpc";
 
 import prisma from "../../../../prisma/db";
 

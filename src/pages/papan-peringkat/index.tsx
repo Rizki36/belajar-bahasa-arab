@@ -1,14 +1,13 @@
 import Head from "next/head";
 import Image from "next/image";
 import React, { FC, useEffect, useRef } from "react";
-
+import { Button } from "@/common/components/ui/button";
 import { Spinner } from "@/common/components/ui/spinner";
 import ClientMainLayout from "@/common/layouts/MainLayout";
 import { cn } from "@/common/utils";
 import useLeaderboard, {
 	LeaderboardItem,
 } from "@/modules/client/hooks/useLeaderboard";
-import { Button } from "@/common/components/ui/button";
 
 import { NextPageWithLayout } from "../_app";
 

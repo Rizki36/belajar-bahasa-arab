@@ -15,16 +15,16 @@ import { transformer } from "@/utils/transformer";
 import { Context } from "./context";
 
 const t = initTRPC.context<Context>().create({
-  /**
-   * @link https://trpc.io/docs/v11/data-transformers
-   */
-  transformer,
-  /**
-   * @link https://trpc.io/docs/v11/error-formatting
-   */
-  errorFormatter({ shape }) {
-    return shape;
-  },
+	/**
+	 * @link https://trpc.io/docs/v11/data-transformers
+	 */
+	transformer,
+	/**
+	 * @link https://trpc.io/docs/v11/error-formatting
+	 */
+	errorFormatter({ shape }) {
+		return shape;
+	},
 });
 
 /**
@@ -44,31 +44,31 @@ export const publicProcedure = t.procedure;
  * procedure
  */
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
-  if (!ctx.session || !ctx.session.user) {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
-  }
-  return next({
-    ctx: {
-      // infers the `session` as non-nullable
-      session: { ...ctx.session, user: ctx.session.user },
-    },
-  });
+	if (!ctx.session || !ctx.session.user) {
+		throw new TRPCError({ code: "UNAUTHORIZED" });
+	}
+	return next({
+		ctx: {
+			// infers the `session` as non-nullable
+			session: { ...ctx.session, user: ctx.session.user },
+		},
+	});
 });
 export const protectedProcedure = publicProcedure.use(enforceUserIsAuthed);
 
 const adminOnly = t.middleware(({ ctx, next }) => {
-  if (ctx.session?.user?.role !== "admin") {
-    throw new TRPCError({ code: "FORBIDDEN" });
-  }
-  return next();
+	if (ctx.session?.user?.role !== "admin") {
+		throw new TRPCError({ code: "FORBIDDEN" });
+	}
+	return next();
 });
 export const adminProcedure = protectedProcedure.use(adminOnly);
 
 const studentOnly = t.middleware(({ ctx, next }) => {
-  if (ctx.session?.user?.role !== "student") {
-    throw new TRPCError({ code: "FORBIDDEN" });
-  }
-  return next();
+	if (ctx.session?.user?.role !== "student") {
+		throw new TRPCError({ code: "FORBIDDEN" });
+	}
+	return next();
 });
 export const studentProcedure = protectedProcedure.use(studentOnly);
 

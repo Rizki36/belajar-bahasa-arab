@@ -10,12 +10,12 @@ import { studentRouter } from "./student";
 import { subBabRouter } from "./subBab";
 
 export const adminRouter = router({
-  dashboard: dashboardRouter,
-  bab: babRouter,
-  setting: settingRouter,
-  student: studentRouter,
-  subBab: subBabRouter,
-  question: questionRouter,
-  lesson: lessonRouter,
-  self: selfRoute,
+	dashboard: dashboardRouter,
+	bab: babRouter,
+	setting: settingRouter,
+	student: studentRouter,
+	subBab: subBabRouter,
+	question: questionRouter,
+	lesson: lessonRouter,
+	self: selfRoute,
 });
