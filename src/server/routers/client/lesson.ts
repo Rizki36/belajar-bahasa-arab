@@ -6,197 +6,264 @@ import prisma from "../../../../prisma/db";
 import { router, studentProcedure } from "../../trpc";
 
 export const lessonRoute = router({
-  data: studentProcedure
-    .input(
-      z.object({
-        babNumber: z.number(),
-        subBabNumber: z.number(),
-        lessonNumber: z.number(),
-      })
-    )
-    .query(async ({ input }) => {
-      const bab = await prisma.bab.findFirst({
-        select: {
-          id: true,
-          number: true,
-          name: true,
-        },
-        where: {
-          number: input.babNumber,
-        },
-      });
-      if (!bab) throw new Error("Bab not found");
+	data: studentProcedure
+		.input(
+			z.object({
+				babNumber: z.number(),
+				subBabNumber: z.number(),
+				lessonNumber: z.number(),
+			}),
+		)
+		.query(async ({ ctx, input }) => {
+			const studentId = ctx.session.user.id;
 
-      const subBab = await prisma.subBab.findFirst({
-        select: {
-          id: true,
-          number: true,
-          name: true,
-        },
-        where: {
-          babId: bab.id,
-          number: input.subBabNumber,
-        },
-      });
+			const bab = await prisma.bab.findFirst({
+				select: {
+					id: true,
+					number: true,
+					name: true,
+				},
+				where: {
+					number: input.babNumber,
+				},
+			});
+			if (!bab) throw new Error("Bab not found");
 
-      if (!subBab) throw new Error("SubBab not found");
+			const subBab = await prisma.subBab.findFirst({
+				select: {
+					id: true,
+					number: true,
+					name: true,
+				},
+				where: {
+					babId: bab.id,
+					number: input.subBabNumber,
+				},
+			});
 
-      const lesson = await prisma.lesson.findFirst({
-        select: {
-          id: true,
-          number: true,
-        },
-        where: {
-          subBabId: subBab.id,
-          number: input.lessonNumber,
-        },
-      });
+			if (!subBab) throw new Error("SubBab not found");
 
-      return {
-        bab,
-        subBab,
-        lesson,
-      };
-    }),
-  checkAnswer: studentProcedure
-    .input(
-      z.object({
-        questionId: z.string(),
-        answerId: z.string(),
-      })
-    )
-    .mutation(async ({ input }) => {
-      const answer = await prisma.answer.findFirst({
-        where: {
-          id: input.answerId,
-          questionId: input.questionId,
-        },
-      });
+			const lesson = await prisma.lesson.findFirst({
+				select: {
+					id: true,
+					number: true,
+				},
+				where: {
+					subBabId: subBab.id,
+					number: input.lessonNumber,
+				},
+			});
 
-      if (!answer) throw new Error("Answer not found");
+			if (!lesson) throw new Error("Lesson not found");
 
-      return {
-        isCorrect: answer.isCorrect,
-      };
-    }),
-  submit: studentProcedure
-    .input(
-      z.object({
-        studentId: z.string(),
-        lessonId: z.string(),
-        heartCount: z.number(),
-        answers: z.array(
-          z.object({
-            questionId: z.string(),
-            answerId: z.string(),
-          })
-        ),
-      })
-    )
-    .mutation(async ({ input }) => {
-      const questions = await prisma.question.findMany({
-        where: {
-          lessonId: input.lessonId,
-        },
-      });
+			// Access validation logic
+			let canAccess = false;
 
-      const correctAnswers = await prisma.answer.findMany({
-        where: {
-          questionId: {
-            in: questions.map((question) => question.id),
-          },
-          isCorrect: true,
-        },
-      });
+			// Case 1: First lesson of first subBab of first bab - always accessible
+			if (
+				input.babNumber === 1 &&
+				input.subBabNumber === 1 &&
+				input.lessonNumber === 1
+			) {
+				canAccess = true;
+			}
+			// Case 2: First lesson of a subBab (not the first subBab)
+			else if (input.lessonNumber === 1 && input.subBabNumber > 1) {
+				// Check if last lesson of previous subBab is completed
+				const previousSubBab = await prisma.subBab.findFirst({
+					where: {
+						babId: bab.id,
+						number: input.subBabNumber - 1,
+					},
+				});
 
-      const correctAnswerIds = correctAnswers.map((answer) => answer.id);
+				if (previousSubBab) {
+					const lastLessonOfPreviousSubBab = await prisma.lesson.findFirst({
+						where: {
+							subBabId: previousSubBab.id,
+						},
+						orderBy: {
+							number: "desc",
+						},
+						include: {
+							studentLessonResult: {
+								where: {
+									studentId,
+								},
+							},
+						},
+					});
 
-      const totalCorrect = input.answers.filter((answer) =>
-        correctAnswerIds.includes(answer.answerId)
-      ).length;
+					canAccess =
+						(lastLessonOfPreviousSubBab?.studentLessonResult?.length ?? 0) > 0;
+				}
+			}
+			// Case 3: Not first lesson of subBab
+			else if (input.lessonNumber > 1) {
+				// Check if previous lesson in same subBab is completed
+				const previousLesson = await prisma.lesson.findFirst({
+					where: {
+						subBabId: subBab.id,
+						number: input.lessonNumber - 1,
+					},
+					include: {
+						studentLessonResult: {
+							where: {
+								studentId,
+							},
+						},
+					},
+				});
 
-      const configs = await prisma.setting.findMany();
-      const config = generateConfig(configs);
+				canAccess = (previousLesson?.studentLessonResult?.length ?? 0) > 0;
+			}
 
-      const score = totalCorrect * config.defaultScore;
-      const star = input.heartCount; // TODO: calculate star
+			return {
+				bab,
+				subBab,
+				lesson,
+				canAccess,
+			};
+		}),
+	checkAnswer: studentProcedure
+		.input(
+			z.object({
+				questionId: z.string(),
+				answerId: z.string(),
+			}),
+		)
+		.mutation(async ({ input }) => {
+			const answer = await prisma.answer.findFirst({
+				where: {
+					id: input.answerId,
+					questionId: input.questionId,
+				},
+			});
 
-      if (star < 1) {
-        return {
-          totalQuestion: questions.length,
-          totalCorrect,
-          star: 0,
-          score: 0,
-        };
-      }
+			if (!answer) throw new Error("Answer not found");
 
-      const lessonResult = await prisma.studentLessonResult.findFirst({
-        where: {
-          studentId: input.studentId,
-          lessonId: input.lessonId,
-        },
-      });
+			return {
+				isCorrect: answer.isCorrect,
+			};
+		}),
+	submit: studentProcedure
+		.input(
+			z.object({
+				studentId: z.string(),
+				lessonId: z.string(),
+				heartCount: z.number(),
+				answers: z.array(
+					z.object({
+						questionId: z.string(),
+						answerId: z.string(),
+					}),
+				),
+			}),
+		)
+		.mutation(async ({ input }) => {
+			const questions = await prisma.question.findMany({
+				where: {
+					lessonId: input.lessonId,
+				},
+			});
 
-      await prisma.studentLessonResult.upsert({
-        create: {
-          lessonId: input.lessonId,
-          studentId: input.studentId,
-          score,
-          star,
-        },
-        update: {
-          score,
-          star,
-        },
-        where: {
-          id: lessonResult?.id ?? "",
-          studentId: input.studentId,
-          lessonId: input.lessonId,
-        },
-      });
+			const correctAnswers = await prisma.answer.findMany({
+				where: {
+					questionId: {
+						in: questions.map((question) => question.id),
+					},
+					isCorrect: true,
+				},
+			});
 
-      return {
-        totalQuestion: questions.length,
-        totalCorrect,
-        star,
-        score,
-      };
-    }),
-  listQuestion: studentProcedure
-    .input(
-      z.object({
-        lessonId: z.string(),
-      })
-    )
-    .query(async ({ input }) => {
-      const lesson = await prisma.lesson.findFirst({
-        where: {
-          id: input.lessonId,
-        },
-      });
+			const correctAnswerIds = correctAnswers.map((answer) => answer.id);
 
-      if (!lesson) throw new Error("Lesson not found");
+			const totalCorrect = input.answers.filter((answer) =>
+				correctAnswerIds.includes(answer.answerId),
+			).length;
 
-      const questions = await prisma.question.findMany({
-        select: {
-          id: true,
-          question: true,
-          number: true,
-          answer: {
-            select: {
-              id: true,
-              answer: true,
-              number: true,
-            },
-          },
-        },
-        where: {
-          lessonId: lesson.id,
-        },
-      });
+			const configs = await prisma.setting.findMany();
+			const config = generateConfig(configs);
 
-      return {
-        questions,
-      };
-    }),
+			const score = totalCorrect * config.defaultScore;
+			const star = input.heartCount; // TODO: calculate star
+
+			if (star < 1) {
+				return {
+					totalQuestion: questions.length,
+					totalCorrect,
+					star: 0,
+					score: 0,
+				};
+			}
+
+			const lessonResult = await prisma.studentLessonResult.findFirst({
+				where: {
+					studentId: input.studentId,
+					lessonId: input.lessonId,
+				},
+			});
+
+			await prisma.studentLessonResult.upsert({
+				create: {
+					lessonId: input.lessonId,
+					studentId: input.studentId,
+					score,
+					star,
+				},
+				update: {
+					score,
+					star,
+				},
+				where: {
+					id: lessonResult?.id ?? "",
+					studentId: input.studentId,
+					lessonId: input.lessonId,
+				},
+			});
+
+			return {
+				totalQuestion: questions.length,
+				totalCorrect,
+				star,
+				score,
+			};
+		}),
+	listQuestion: studentProcedure
+		.input(
+			z.object({
+				lessonId: z.string(),
+			}),
+		)
+		.query(async ({ input }) => {
+			const lesson = await prisma.lesson.findFirst({
+				where: {
+					id: input.lessonId,
+				},
+			});
+
+			if (!lesson) throw new Error("Lesson not found");
+
+			const questions = await prisma.question.findMany({
+				select: {
+					id: true,
+					question: true,
+					number: true,
+					answer: {
+						select: {
+							id: true,
+							answer: true,
+							number: true,
+						},
+					},
+				},
+				where: {
+					lessonId: lesson.id,
+				},
+			});
+
+			return {
+				questions,
+			};
+		}),
 });

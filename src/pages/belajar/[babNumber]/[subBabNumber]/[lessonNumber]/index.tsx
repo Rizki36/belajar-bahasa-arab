@@ -3,8 +3,9 @@ import { HeartFilledIcon, ReloadIcon } from "@radix-ui/react-icons";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { FC, useId, useMemo, useState } from "react";
+import React, { FC, useEffect, useId, useMemo, useState } from "react";
 import { useForm, UseFormReturn, useWatch } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import Button3D from "@/common/components/ui/3d-button";
@@ -279,6 +280,16 @@ const LessonPage: NextPageWithLayout = () => {
 		},
 	);
 
+	// Handle redirection for inaccessible lessons
+	useEffect(() => {
+		if (data && data.canAccess === false) {
+			toast.error(
+				"Anda harus menyelesaikan pelajaran sebelumnya terlebih dahulu",
+			);
+			router.replace(`/belajar/${router.query.babNumber || ""}`);
+		}
+	}, [data, router]);
+
 	if (isLoading) {
 		return (
 			<div className="w-full bg-primary h-screen flex items-center justify-center">
@@ -287,10 +298,17 @@ const LessonPage: NextPageWithLayout = () => {
 		);
 	}
 
-	if (!data || !data.bab || !data.subBab || !data.lesson) {
-		router.replace("/belajar");
+	if (
+		!data ||
+		!data.bab ||
+		!data.subBab ||
+		!data.lesson ||
+		data.canAccess === false
+	) {
 		return (
-			<div className="w-full bg-primary h-screen flex items-center justify-center"></div>
+			<div className="w-full bg-primary h-screen flex items-center justify-center">
+				<Spinner size="large" className="text-white" />
+			</div>
 		);
 	}
 
