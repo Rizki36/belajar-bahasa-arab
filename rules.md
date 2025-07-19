@@ -12,7 +12,7 @@
 
 ### Next.js Structure
 
-- Follow the **Next.js 14+** pages directory structure:
+- Follow the **Next.js 15** pages directory structure:
   - Place pages in the `src/pages` directory.
   - Use layout files for shared layouts.
   - Place components based on their modules `src/modules/[admin/client]/[module]/components`.
