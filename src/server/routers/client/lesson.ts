@@ -9,13 +9,14 @@ export const lessonRoute = router({
 	data: studentProcedure
 		.input(
 			z.object({
+				studentId: z.string(),
 				babNumber: z.number(),
 				subBabNumber: z.number(),
 				lessonNumber: z.number(),
 			}),
 		)
-		.query(async ({ ctx, input }) => {
-			const studentId = ctx.session.user.id;
+		.query(async ({ input }) => {
+			const studentId = input.studentId;
 
 			const bab = await prisma.bab.findFirst({
 				select: {
@@ -47,6 +48,11 @@ export const lessonRoute = router({
 				select: {
 					id: true,
 					number: true,
+					title: true,
+					description: true,
+					contentType: true,
+					videoUrl: true,
+					pdfUrl: true,
 				},
 				where: {
 					subBabId: subBab.id,
@@ -63,7 +69,7 @@ export const lessonRoute = router({
 			if (
 				input.babNumber === 1 &&
 				input.subBabNumber === 1 &&
-				input.lessonNumber === 1
+				input.lessonNumber === 0
 			) {
 				canAccess = true;
 			}
@@ -99,7 +105,7 @@ export const lessonRoute = router({
 				}
 			}
 			// Case 3: Not first lesson of subBab
-			else if (input.lessonNumber > 1) {
+			else if (input.lessonNumber > 0) {
 				// Check if previous lesson in same subBab is completed
 				const previousLesson = await prisma.lesson.findFirst({
 					where: {
@@ -228,6 +234,54 @@ export const lessonRoute = router({
 				star,
 				score,
 			};
+		}),
+	submitLessonVideo: studentProcedure
+		.input(
+			z.object({
+				studentId: z.string(),
+				lessonId: z.string(),
+			}),
+		)
+		.mutation(async ({ input }) => {
+			// Find the lesson to verify it exists
+			const lesson = await prisma.lesson.findUnique({
+				where: {
+					id: input.lessonId,
+				},
+			});
+
+			if (!lesson) throw new Error("Lesson not found");
+
+			const lessonResult = await prisma.studentLessonResult.findFirst({
+				where: {
+					studentId: input.studentId,
+					lessonId: input.lessonId,
+				},
+			});
+
+			// Set score and star to 0 for video lessons
+			const score = 0;
+			const star = 0;
+
+			// Record that the student has completed this video lesson
+			await prisma.studentLessonResult.upsert({
+				create: {
+					lessonId: input.lessonId,
+					studentId: input.studentId,
+					score,
+					star,
+				},
+				update: {
+					// If already exists, we don't need to update anything
+				},
+				where: {
+					id: lessonResult?.id ?? "",
+					studentId: input.studentId,
+					lessonId: input.lessonId,
+				},
+			});
+
+			return {};
 		}),
 	listQuestion: studentProcedure
 		.input(

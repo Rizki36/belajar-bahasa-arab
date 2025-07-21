@@ -17,7 +17,14 @@ const LessonFormDialog: React.FC<{
 	open: boolean;
 	bab?: { id: string };
 	subBab?: { id: string };
-	lesson?: { id: string; number: number };
+	lesson?: {
+		id: string;
+		number: number;
+		title: string | null;
+		description: string | null;
+		videoUrl: string | null;
+		contentType: "quiz" | "video" | "pdf" | "mixed";
+	};
 	setOpen: (open: boolean) => void;
 }> = ({ mode, bab, subBab, lesson, open, setOpen }) => {
 	const { mutateAsync: createLesson, status: createStatus } =
@@ -86,7 +93,17 @@ const LessonFormDialog: React.FC<{
 				</DialogHeader>
 				<div>
 					<LessonForm
-						defaultValues={lesson ? { number: lesson.number } : undefined}
+						defaultValues={
+							lesson
+								? {
+										number: lesson.number,
+										contentType: lesson.contentType || "quiz",
+										description: lesson.description || undefined,
+										title: lesson.title || undefined,
+										videoUrl: lesson.videoUrl || undefined,
+									}
+								: undefined
+						}
 						onSubmit={handleSubmit}
 						loading={loading}
 					/>

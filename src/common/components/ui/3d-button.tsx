@@ -11,6 +11,7 @@ const button3DVariants = cva(
 				default: "",
 				destructive: "",
 				white: "",
+				success: "",
 			},
 			size: {
 				default: "translate-y-0.5",
@@ -36,6 +37,7 @@ const FrontVariants = cva(
 				default: "bg-violet-600",
 				destructive: "bg-red-600",
 				white: "bg-white text-black",
+				success: "bg-green-600",
 			},
 			size: {
 				default: "h-9 px-4 py-2",
@@ -55,6 +57,11 @@ const FrontVariants = cva(
 				disabled: true,
 				className: "",
 			},
+			{
+				variant: "success",
+				disabled: true,
+				className: "bg-green-400",
+			},
 		],
 		defaultVariants: {
 			size: "default",
@@ -69,6 +76,7 @@ const MiddleVariants = cva("absolute top-0 left-0 w-full h-full rounded-md", {
 			default: "bg-violet-700",
 			destructive: "bg-red-700",
 			white: "bg-neutral-300",
+			success: "bg-green-700",
 		},
 		size: {
 			default: "",
@@ -91,6 +99,7 @@ const ShadowVariants = cva(
 				default: "",
 				destructive: "",
 				white: "",
+				success: "",
 			},
 			size: {
 				default: "",

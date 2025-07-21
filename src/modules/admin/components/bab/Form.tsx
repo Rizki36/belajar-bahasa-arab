@@ -22,7 +22,7 @@ export const FormSchema = z.object({
 			message: "Nomor bab harus berupa angka",
 		})
 		.min(1, {
-			message: "Nomor bab harus lebih dari 1",
+			message: "Nomor bab minimal 1",
 		}),
 	name: z
 		.string({

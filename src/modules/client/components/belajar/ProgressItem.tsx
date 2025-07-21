@@ -1,0 +1,89 @@
+import { FileIcon, PlayCircleIcon } from "lucide-react";
+import { useRouter } from "next/router";
+import React, { FC, useMemo } from "react";
+import { Spinner } from "@/common/components/ui/spinner";
+import { cn } from "@/common/utils";
+import useSubBabList from "../../hooks/useSubBab";
+import StarIcon from "../../icons/Star";
+
+const ProgressItem = ({
+	starCount,
+	href,
+	style,
+	disabled,
+	className,
+	contentType = "quiz",
+}: {
+	starCount: number;
+	href: string;
+	style: React.CSSProperties;
+	disabled: boolean;
+	className: string;
+	contentType?: "quiz" | "video" | "pdf" | "mixed";
+}) => {
+	const router = useRouter();
+
+	const ContentTypeIcon = () => {
+		switch (contentType) {
+			case "video":
+				return (
+					<PlayCircleIcon className="text-white transform drop-shadow-lg duration-100 group-hover:scale-y-[.85] size-[25px] scale-y-90" />
+				);
+			case "pdf":
+				return (
+					<FileIcon className="text-white transform drop-shadow-lg duration-100 group-hover:scale-y-[.85] size-[25px] scale-y-90" />
+				);
+			case "mixed":
+			case "quiz":
+			default:
+				return (
+					<div className="flex items-center justify-center">
+						<StarIcon className="size-4 mt-1" filled={starCount > 0} />
+						<StarIcon className="size-4 -mt-1.5" filled={starCount > 1} />
+						<StarIcon className="size-4 mt-1" filled={starCount > 2} />
+					</div>
+				);
+		}
+	};
+
+	return (
+		<button
+			className={cn("group relative items-center flex flex-col", className, {
+				"cursor-pointer": !disabled,
+				"cursor-not-allowed": disabled,
+			})}
+			style={style}
+			disabled={disabled}
+			onClick={() => {
+				if (!disabled) {
+					router.push(href);
+				}
+			}}
+		>
+			<div
+				className={cn(
+					"transform duration-100 w-[60px] h-[56px] rounded-[100%]",
+					{
+						"bg-primary-dark1": !disabled,
+						"bg-[#cbcbcb]": disabled,
+					},
+				)}
+			>
+				<div
+					className={cn(
+						"w-full transform duration-100 flex items-center justify-center rounded-[100%] h-[48px] bg-primary relative",
+						"group-hover:h-[44px]",
+						"group-active:h-[50px]",
+						{
+							"bg-[#e0e0e0]": disabled,
+						},
+					)}
+				>
+					<ContentTypeIcon />
+				</div>
+			</div>
+		</button>
+	);
+};
+
+export default ProgressItem;
