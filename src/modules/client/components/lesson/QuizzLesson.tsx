@@ -50,7 +50,7 @@ const QuizLesson: FC<{
 	const { mutate: checkAnswer, status: checkAnswerStatus } =
 		trpc.student.lesson.checkAnswer.useMutation();
 	const { mutate: submit, status: submitStatus } =
-		trpc.student.lesson.submit.useMutation();
+		trpc.student.lesson.submitQuiz.useMutation();
 	const { config, loading: loadingConfig } = useSystemSetting();
 
 	const { student } = useStudent();

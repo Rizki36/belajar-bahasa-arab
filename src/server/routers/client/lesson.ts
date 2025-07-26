@@ -152,7 +152,7 @@ export const lessonRoute = router({
 				isCorrect: answer.isCorrect,
 			};
 		}),
-	submit: studentProcedure
+	submitQuiz: studentProcedure
 		.input(
 			z.object({
 				studentId: z.string(),
@@ -235,7 +235,7 @@ export const lessonRoute = router({
 				score,
 			};
 		}),
-	submitLessonVideo: studentProcedure
+	submitVideoOrPdf: studentProcedure
 		.input(
 			z.object({
 				studentId: z.string(),

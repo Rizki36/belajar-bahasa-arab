@@ -39,7 +39,7 @@ const VideoLesson: FC<VideoLessonProps> = ({
 	const videoId = getYoutubeId(videoUrl);
 
 	const { mutate: submitVideoCompletion } =
-		trpc.student.lesson.submitLessonVideo.useMutation({
+		trpc.student.lesson.submitVideoOrPdf.useMutation({
 			onSuccess: () => {
 				setCompleted(true);
 				setLoading(false);
