@@ -1,5 +1,5 @@
 import { Spinner } from "@/common/components/ui/spinner";
-import useSubBabList, { SubBabWithLesson } from "../../hooks/useSubBab";
+import useSubBabList, { type SubBabWithLesson } from "../../hooks/useSubBab";
 import ProgressItem from "./ProgressItem";
 
 type LessonsProps = {

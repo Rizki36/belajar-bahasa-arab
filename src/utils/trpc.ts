@@ -8,7 +8,7 @@ import { ssrPrepass } from "@trpc/next/ssrPrepass";
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 import type { NextPageContext } from "next";
 
-import { AppRouter } from "@/server/routers/_app";
+import type { AppRouter } from "@/server/routers/_app";
 
 import { transformer } from "./transformer";
 

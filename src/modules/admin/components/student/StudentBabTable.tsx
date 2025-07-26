@@ -5,7 +5,7 @@ import {
 	useReactTable,
 } from "@tanstack/react-table";
 import { useRouter } from "next/router";
-import { FC } from "react";
+import type { FC } from "react";
 
 import { Progress } from "@/common/components/ui/progress";
 import {
@@ -18,7 +18,7 @@ import {
 } from "@/common/components/ui/table";
 
 import useStudentBabList, {
-	StudentBabDataType,
+	type StudentBabDataType,
 } from "../../hooks/useStudentBabList";
 
 const babColumnHelper = createColumnHelper<StudentBabDataType>();

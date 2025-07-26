@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import Head from "next/head";
-import React from "react";
+import type React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -20,7 +20,7 @@ import { Spinner } from "@/common/components/ui/spinner";
 import { Switch } from "@/common/components/ui/switch";
 import useSystemSetting from "@/common/hooks/useSystemSetting";
 import AdminMainLayout from "@/modules/admin/layouts/MainLayout";
-import { NextPageWithLayout } from "@/pages/_app";
+import type { NextPageWithLayout } from "@/pages/_app";
 import { trpc } from "@/utils/trpc";
 
 const FormSchema = z.object({

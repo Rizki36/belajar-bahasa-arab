@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 
 import { Spinner } from "@/common/components/ui/spinner";
-import { NextPageWithLayout } from "@/pages/_app";
+import type { NextPageWithLayout } from "@/pages/_app";
 import { trpc } from "@/utils/trpc";
 
 const CreateAdminPage: NextPageWithLayout = () => {

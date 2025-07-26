@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { Button } from "@/common/components/ui/button";
 import { Spinner } from "@/common/components/ui/spinner";
 import { cn } from "@/common/utils";
-import { NextPageWithLayout } from "@/pages/_app";
+import type { NextPageWithLayout } from "@/pages/_app";
 import { trpc } from "@/utils/trpc";
 
 const BabLessonsPage: NextPageWithLayout = () => {

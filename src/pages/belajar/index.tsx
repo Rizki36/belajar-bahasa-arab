@@ -7,7 +7,7 @@ import ClientMainLayout from "@/common/layouts/MainLayout";
 import { CLIENT_LOCAL_STORAGE_KEYS } from "@/modules/client/constants";
 import useStudent from "@/modules/client/hooks/useStudent";
 
-import { NextPageWithLayout } from "../_app";
+import type { NextPageWithLayout } from "../_app";
 
 const LearnPage: NextPageWithLayout = () => {
 	const router = useRouter();

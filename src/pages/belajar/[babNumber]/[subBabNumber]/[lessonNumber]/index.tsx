@@ -8,7 +8,7 @@ import PdfLesson from "@/modules/client/components/lesson/PdfLesson";
 import QuizLesson from "@/modules/client/components/lesson/QuizzLesson";
 import VideoLesson from "@/modules/client/components/lesson/VideoLesson";
 import useStudent from "@/modules/client/hooks/useStudent";
-import { NextPageWithLayout } from "@/pages/_app";
+import type { NextPageWithLayout } from "@/pages/_app";
 import { trpc } from "@/utils/trpc";
 
 const LessonPage: NextPageWithLayout = () => {

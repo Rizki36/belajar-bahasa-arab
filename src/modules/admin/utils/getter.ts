@@ -1,4 +1,4 @@
-import { QuestionFormSchemaType } from "@/modules/admin/components/lesson/QuestionForm.type";
+import type { QuestionFormSchemaType } from "@/modules/admin/components/lesson/QuestionForm.type";
 
 const getRemovedQuestions = (
 	defaultItems: QuestionFormSchemaType["items"],

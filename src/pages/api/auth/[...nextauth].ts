@@ -1,9 +1,9 @@
 // resource: https://github.com/wpcodevo/nextauth-nextjs13-prisma/tree/main
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
-import NextAuth, { AuthOptions } from "next-auth";
-import { Adapter, AdapterUser } from "next-auth/adapters";
-import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
+import NextAuth, { type AuthOptions } from "next-auth";
+import type { Adapter, AdapterUser } from "next-auth/adapters";
+import GoogleProvider, { type GoogleProfile } from "next-auth/providers/google";
 
 const prisma = new PrismaClient();
 

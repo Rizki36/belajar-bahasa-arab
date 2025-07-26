@@ -1,6 +1,6 @@
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/router";
-import { FC, useEffect } from "react";
+import { type FC, useEffect } from "react";
 
 import { Button } from "@/common/components/ui/button";
 import { Dialog, DialogContent } from "@/common/components/ui/dialog";

@@ -1,7 +1,7 @@
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useWatch } from "react-hook-form";
 import Button3D from "@/common/components/ui/3d-button";
-import { QuizLessonFormType } from "../../schema";
+import type { QuizLessonFormType } from "../../schema";
 
 type AnserButtonProps = {
 	form: QuizLessonFormType;

@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { Button } from "@/common/components/ui/button";
 import { Spinner } from "@/common/components/ui/spinner";

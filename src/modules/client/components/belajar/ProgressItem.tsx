@@ -1,6 +1,6 @@
 import { FileIcon, PlayCircleIcon } from "lucide-react";
 import { useRouter } from "next/router";
-import React from "react";
+import type React from "react";
 import { cn } from "@/common/utils";
 import StarIcon from "../../icons/Star";
 

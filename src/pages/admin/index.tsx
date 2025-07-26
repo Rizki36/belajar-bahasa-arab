@@ -17,7 +17,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/common/components/ui/card";
-import { ChartConfig, ChartContainer } from "@/common/components/ui/chart";
+import { type ChartConfig, ChartContainer } from "@/common/components/ui/chart";
 import { Skeleton } from "@/common/components/ui/skeleton";
 import { Spinner } from "@/common/components/ui/spinner";
 import {
@@ -31,7 +31,7 @@ import useLeaderBoard from "@/modules/admin/hooks/dashboard/useLeaderBoard";
 import useScoreDistribution from "@/modules/admin/hooks/dashboard/useScoreDistribution";
 import useStudentCount from "@/modules/admin/hooks/dashboard/useStudentCount";
 import AdminMainLayout from "@/modules/admin/layouts/MainLayout";
-import { NextPageWithLayout } from "@/pages/_app";
+import type { NextPageWithLayout } from "@/pages/_app";
 
 const DashboardPage: NextPageWithLayout = () => {
 	const { studentCount, loadingStudentCount } = useStudentCount();

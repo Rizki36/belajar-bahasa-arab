@@ -12,7 +12,7 @@ import DeleteLessonButton from "@/modules/admin/components/lesson/DeleteButton";
 import LessonFormDialog from "@/modules/admin/components/lesson/FormDialog";
 import QuestionForm from "@/modules/admin/components/lesson/QuestionForm";
 import AdminMainLayout from "@/modules/admin/layouts/MainLayout";
-import { NextPageWithLayout } from "@/pages/_app";
+import type { NextPageWithLayout } from "@/pages/_app";
 import { trpc } from "@/utils/trpc";
 
 const LessonDetailPage: NextPageWithLayout = () => {

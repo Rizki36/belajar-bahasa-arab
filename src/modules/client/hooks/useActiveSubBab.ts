@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SubBabWithLesson } from "./useSubBab";
+import type { SubBabWithLesson } from "./useSubBab";
 
 export const useActiveSubBab = (subBabList: SubBabWithLesson[] | undefined) => {
 	const [activeSubBab, setActiveSubBab] = useState<SubBabWithLesson | null>(

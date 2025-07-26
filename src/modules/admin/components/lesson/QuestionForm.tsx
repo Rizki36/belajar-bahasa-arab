@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import type React from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
@@ -11,7 +11,7 @@ import { trpc } from "@/utils/trpc";
 
 import { formatQuestionFormPayload } from "../../utils/formatter";
 import { QuestionFormSchema } from "./QuestionForm.schema";
-import { QuestionFormSchemaType } from "./QuestionForm.type";
+import type { QuestionFormSchemaType } from "./QuestionForm.type";
 import QuestionItem from "./QuestionItem";
 
 const useSaveForm = ({ lessonId }: { lessonId: string }) => {

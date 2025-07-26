@@ -1,4 +1,4 @@
-import { cva, VariantProps } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 import QRCode from "react-qr-code";
 import {
 	FacebookIcon,

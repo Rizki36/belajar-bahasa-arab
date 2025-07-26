@@ -5,7 +5,7 @@ import { Spinner } from "@/common/components/ui/spinner";
 import ClientMainLayout from "@/common/layouts/MainLayout";
 import Bab from "@/modules/client/components/belajar";
 import useAccessBab from "@/modules/client/hooks/useAccessBab";
-import { NextPageWithLayout } from "@/pages/_app";
+import type { NextPageWithLayout } from "@/pages/_app";
 
 const SpecificBabPage: NextPageWithLayout = () => {
 	const router = useRouter();

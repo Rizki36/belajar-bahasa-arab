@@ -1,5 +1,5 @@
-import { z } from "zod";
+import type { z } from "zod";
 
-import { QuestionFormSchema } from "./QuestionForm.schema";
+import type { QuestionFormSchema } from "./QuestionForm.schema";
 
 export type QuestionFormSchemaType = z.infer<typeof QuestionFormSchema>;

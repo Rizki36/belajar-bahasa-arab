@@ -1,5 +1,6 @@
-import { cva, VariantProps } from "class-variance-authority";
-import React, { FC, JSX } from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import type React from "react";
+import type { FC, JSX } from "react";
 
 import { cn } from "@/common/utils";
 

@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { HeartFilledIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
-import { FC, useId, useMemo, useState } from "react";
+import { type FC, useId, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { Button } from "@/common/components/ui/button";
 import { Form } from "@/common/components/ui/form";
@@ -13,7 +13,7 @@ import ShareSection from "@/modules/client/components/belajar/ShareSection";
 import EndModal from "@/modules/client/components/lesson/EndModal";
 import useStudent from "@/modules/client/hooks/useStudent";
 import { type RouterOutput, trpc } from "@/utils/trpc";
-import { QuizLessonFormSchema, QuizLessonFormType } from "../../schema";
+import { QuizLessonFormSchema, type QuizLessonFormType } from "../../schema";
 import AnswerButton from "./AnswerButton";
 
 type LessonData = RouterOutput["student"]["lesson"]["data"];
@@ -21,11 +21,15 @@ type Questions = RouterOutput["student"]["lesson"]["listQuestion"]["questions"];
 
 const maxHeartCount = 3;
 
-const Answer: FC<{
+type AnswerProps = {
 	answer: Questions[number]["answer"][number];
 	form: QuizLessonFormType;
 	loading: boolean;
-}> = ({ answer, form, loading }) => {
+};
+
+const Answer = (props: AnswerProps) => {
+	const { answer, form, loading } = props;
+
 	const id = useId();
 	const isIncorrect = useWatch({
 		control: form.control,
