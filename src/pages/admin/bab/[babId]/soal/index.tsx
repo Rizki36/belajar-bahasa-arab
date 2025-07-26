@@ -1,6 +1,4 @@
 import { useRouter } from "next/router";
-import React from "react";
-
 import { Button } from "@/common/components/ui/button";
 import { Spinner } from "@/common/components/ui/spinner";
 import { cn } from "@/common/utils";

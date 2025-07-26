@@ -61,7 +61,8 @@
 				"useIsNan": "error",
 				"useValidForDirection": "error",
 				"useValidTypeof": "error",
-				"useYield": "error"
+				"useYield": "error",
+				"noUnusedImports": "error"
 			},
 			"style": {
 				"noNamespace": "error",
@@ -134,7 +135,7 @@
 						"noDuplicateObjectKeys": "off",
 						"noDuplicateParameters": "off",
 						"noFunctionAssign": "off",
-						"noImportAssign": "off",
+						"noImportAssign": "error",
 						"noRedeclare": "off",
 						"noUnsafeNegation": "off",
 						"noVar": "error",

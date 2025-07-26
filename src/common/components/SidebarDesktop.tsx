@@ -2,8 +2,6 @@ import { ExitIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
-import React from "react";
-
 import { menuItems } from "../constants";
 import { cn, isActiveLink } from "../utils";
 import Button3D from "./ui/3d-button";

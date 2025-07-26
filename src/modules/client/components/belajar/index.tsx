@@ -1,7 +1,4 @@
-import React from "react";
-
 import { cn } from "@/common/utils";
-
 import Header from "./Header";
 import Lessons from "./Lessons";
 import ProfileSection from "./ProfileSection";

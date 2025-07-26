@@ -1,10 +1,7 @@
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import React from "react";
-
 import { Skeleton } from "@/common/components/ui/skeleton";
 import ScoreIcon from "@/common/icons/Score";
-
 import useStudent from "../../hooks/useStudent";
 
 type ProfileSectionProps = {};

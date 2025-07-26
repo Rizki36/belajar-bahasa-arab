@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Progress } from "@/common/components/ui/progress";
 
 import useBab from "../../hooks/useBab";

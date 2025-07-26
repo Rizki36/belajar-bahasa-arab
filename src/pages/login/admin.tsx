@@ -1,6 +1,5 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { signIn } from "next-auth/react";
-import React from "react";
 
 import Button3D from "@/common/components/ui/3d-button";
 

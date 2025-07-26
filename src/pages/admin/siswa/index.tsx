@@ -6,7 +6,6 @@ import {
 } from "@tanstack/react-table";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React from "react";
 import { toast } from "sonner";
 
 import {

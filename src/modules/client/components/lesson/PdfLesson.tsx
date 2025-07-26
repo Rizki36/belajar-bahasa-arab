@@ -1,7 +1,7 @@
 import { ReloadIcon } from "@radix-ui/react-icons";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { toast } from "sonner";
 import Button3D from "@/common/components/ui/3d-button";
 import { Button } from "@/common/components/ui/button";

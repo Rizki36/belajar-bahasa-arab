@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
-import * as React from "react";
 
 import { Button } from "@/common/components/ui/button";
 import { isActiveLink } from "@/common/utils";

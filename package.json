@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "biome check --write",
+    "lint": "biome check --write ./src",
     "migrate:dev": "npx dotenv -e .env.local -- prisma migrate dev",
     "prisma:studio": "npx dotenv -e .env.local -- prisma studio",
     "check-types": "tsc --noEmit",

@@ -5,7 +5,7 @@ import {
 	useReactTable,
 } from "@tanstack/react-table";
 import { useRouter } from "next/router";
-import React, { FC } from "react";
+import { FC } from "react";
 
 import { Progress } from "@/common/components/ui/progress";
 import {

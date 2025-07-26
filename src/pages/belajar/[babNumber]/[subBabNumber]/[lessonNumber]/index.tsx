@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { toast } from "sonner";
 
 import { Spinner } from "@/common/components/ui/spinner";

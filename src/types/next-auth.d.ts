@@ -33,6 +33,7 @@ declare module "next-auth" {
 }
 
 // The `JWT` interface can be found in the `next-auth/jwt` submodule
+// biome-ignore lint/correctness/noUnusedImports: Intentionally
 import { JWT } from "next-auth/jwt";
 
 declare module "next-auth/jwt" {

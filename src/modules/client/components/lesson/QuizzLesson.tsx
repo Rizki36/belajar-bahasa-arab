@@ -1,9 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { HeartFilledIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
-import React, { FC, useId, useMemo, useState } from "react";
-import { UseFormReturn, useForm, useWatch } from "react-hook-form";
-import { z } from "zod";
+import { FC, useId, useMemo, useState } from "react";
+import { useForm, useWatch } from "react-hook-form";
 import { Button } from "@/common/components/ui/button";
 import { Form } from "@/common/components/ui/form";
 import { Progress } from "@/common/components/ui/progress";

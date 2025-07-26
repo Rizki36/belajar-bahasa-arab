@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 import { Spinner } from "@/common/components/ui/spinner";
 import { useLocalStorage } from "@/common/hooks/useLocalStorage";

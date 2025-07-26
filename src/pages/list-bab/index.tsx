@@ -1,7 +1,7 @@
 import { CaretLeftIcon, ReloadIcon } from "@radix-ui/react-icons";
 import Head from "next/head";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import Button3D from "@/common/components/ui/3d-button";
