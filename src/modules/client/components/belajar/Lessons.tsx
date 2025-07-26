@@ -80,6 +80,7 @@ const Lessons: FC<LessonsProps> = ({ babNumber }) => {
 											}}
 											disabled={!isEnabled}
 											contentType={item.contentType}
+											isCompleted={isCompleted}
 										/>
 									);
 								})}

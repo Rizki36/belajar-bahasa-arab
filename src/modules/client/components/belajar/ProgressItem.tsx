@@ -1,9 +1,7 @@
 import { FileIcon, PlayCircleIcon } from "lucide-react";
 import { useRouter } from "next/router";
-import React, { FC, useMemo } from "react";
-import { Spinner } from "@/common/components/ui/spinner";
+import React from "react";
 import { cn } from "@/common/utils";
-import useSubBabList from "../../hooks/useSubBab";
 import StarIcon from "../../icons/Star";
 
 const ProgressItem = ({
@@ -13,6 +11,7 @@ const ProgressItem = ({
 	disabled,
 	className,
 	contentType = "quiz",
+	isCompleted,
 }: {
 	starCount: number;
 	href: string;
@@ -20,6 +19,7 @@ const ProgressItem = ({
 	disabled: boolean;
 	className: string;
 	contentType?: "quiz" | "video" | "pdf" | "mixed";
+	isCompleted?: boolean;
 }) => {
 	const router = useRouter();
 
@@ -27,11 +27,27 @@ const ProgressItem = ({
 		switch (contentType) {
 			case "video":
 				return (
-					<PlayCircleIcon className="text-white transform drop-shadow-lg duration-100 group-hover:scale-y-[.85] size-[25px] scale-y-90" />
+					<PlayCircleIcon
+						className={cn(
+							"transform drop-shadow-lg duration-100 group-hover:scale-y-[.85] size-[25px] scale-y-90",
+							{
+								"text-white": !isCompleted,
+								"text-[#FFBF00]": isCompleted,
+							},
+						)}
+					/>
 				);
 			case "pdf":
 				return (
-					<FileIcon className="text-white transform drop-shadow-lg duration-100 group-hover:scale-y-[.85] size-[25px] scale-y-90" />
+					<FileIcon
+						className={cn(
+							"transform drop-shadow-lg duration-100 group-hover:scale-y-[.85] size-[25px] scale-y-90",
+							{
+								"text-white": !isCompleted,
+								"text-[#FFBF00]": isCompleted,
+							},
+						)}
+					/>
 				);
 			case "mixed":
 			case "quiz":
