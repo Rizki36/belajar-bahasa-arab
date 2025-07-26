@@ -32,7 +32,7 @@
 			"recommended": false,
 			"complexity": {
 				"noAdjacentSpacesInRegex": "error",
-				"noBannedTypes": "warn",
+				"noBannedTypes": "off",
 				"noExtraBooleanCast": "error",
 				"noUselessCatch": "error",
 				"noUselessEscapeInRegex": "error",
