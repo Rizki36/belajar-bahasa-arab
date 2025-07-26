@@ -5,7 +5,7 @@ import { signIn } from "next-auth/react";
 import Button3D from "@/common/components/ui/3d-button";
 import { Button } from "@/common/components/ui/button";
 
-import { NextPageWithLayout } from "./_app";
+import type { NextPageWithLayout } from "./_app";
 
 const HomePage: NextPageWithLayout = () => {
 	return (

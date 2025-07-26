@@ -6,7 +6,6 @@ import {
 } from "@tanstack/react-table";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React from "react";
 import { toast } from "sonner";
 
 import {
@@ -28,10 +27,10 @@ import {
 } from "@/common/components/ui/table";
 import usePagination from "@/modules/admin/hooks/usePagination";
 import useStudentList, {
-	StudentDataType,
+	type StudentDataType,
 } from "@/modules/admin/hooks/useStudentList";
 import AdminMainLayout from "@/modules/admin/layouts/MainLayout";
-import { NextPageWithLayout } from "@/pages/_app";
+import type { NextPageWithLayout } from "@/pages/_app";
 
 const columnHelper = createColumnHelper<StudentDataType>();
 

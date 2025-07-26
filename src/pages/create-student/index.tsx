@@ -1,12 +1,12 @@
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { toast } from "sonner";
 
 import { Spinner } from "@/common/components/ui/spinner";
 import { trpc } from "@/utils/trpc";
 
-import { NextPageWithLayout } from "../_app";
+import type { NextPageWithLayout } from "../_app";
 
 const CreateStudentPage: NextPageWithLayout = () => {
 	const router = useRouter();

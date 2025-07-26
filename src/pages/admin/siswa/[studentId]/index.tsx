@@ -3,7 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { FC, useState } from "react";
+import { type FC, useState } from "react";
 
 import { Button } from "@/common/components/ui/button";
 import {
@@ -17,7 +17,7 @@ import StudentBabTable from "@/modules/admin/components/student/StudentBabTable"
 import StudentSubBabTable from "@/modules/admin/components/student/StudentSubBabTable";
 import useStudentDetail from "@/modules/admin/hooks/useStudentDetail";
 import AdminMainLayout from "@/modules/admin/layouts/MainLayout";
-import { NextPageWithLayout } from "@/pages/_app";
+import type { NextPageWithLayout } from "@/pages/_app";
 
 const StudentDetailPage: NextPageWithLayout = () => {
 	const router = useRouter();

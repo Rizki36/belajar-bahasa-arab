@@ -16,7 +16,7 @@ import DeleteSubBabButton from "@/modules/admin/components/sub-bab/DeleteButton"
 import SubBabFormDialog from "@/modules/admin/components/sub-bab/FormDialog";
 import LessonTable from "@/modules/admin/components/sub-bab/LessonTable";
 import AdminMainLayout from "@/modules/admin/layouts/MainLayout";
-import { NextPageWithLayout } from "@/pages/_app";
+import type { NextPageWithLayout } from "@/pages/_app";
 import { trpc } from "@/utils/trpc";
 
 const SubBabPage: NextPageWithLayout = () => {

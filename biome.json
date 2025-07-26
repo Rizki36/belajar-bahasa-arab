@@ -32,7 +32,7 @@
 			"recommended": false,
 			"complexity": {
 				"noAdjacentSpacesInRegex": "error",
-				"noBannedTypes": "error",
+				"noBannedTypes": "off",
 				"noExtraBooleanCast": "error",
 				"noUselessCatch": "error",
 				"noUselessEscapeInRegex": "error",
@@ -42,7 +42,6 @@
 				"noConstAssign": "error",
 				"noConstantCondition": "error",
 				"noEmptyCharacterClassInRegex": "error",
-				"noEmptyPattern": "error",
 				"noGlobalObjectCalls": "error",
 				"noInnerDeclarations": "error",
 				"noInvalidConstructorSuper": "error",
@@ -62,14 +61,16 @@
 				"useIsNan": "error",
 				"useValidForDirection": "error",
 				"useValidTypeof": "error",
-				"useYield": "error"
+				"useYield": "error",
+				"noUnusedImports": "error"
 			},
 			"style": {
 				"noNamespace": "error",
 				"noRestrictedImports": "error",
 				"useArrayLiterals": "error",
 				"useAsConstAssertion": "error",
-				"useBlockStatements": "off"
+				"useBlockStatements": "off",
+				"useImportType": "error"
 			},
 			"suspicious": {
 				"noAsyncPromiseExecutor": "error",
@@ -135,7 +136,7 @@
 						"noDuplicateObjectKeys": "off",
 						"noDuplicateParameters": "off",
 						"noFunctionAssign": "off",
-						"noImportAssign": "off",
+						"noImportAssign": "error",
 						"noRedeclare": "off",
 						"noUnsafeNegation": "off",
 						"noVar": "error",

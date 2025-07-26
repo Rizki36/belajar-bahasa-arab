@@ -1,4 +1,4 @@
-import { QuestionFormSchemaType } from "../components/lesson/QuestionForm.type";
+import type { QuestionFormSchemaType } from "../components/lesson/QuestionForm.type";
 import {
 	getNewQuestionsAndAnswers,
 	getRemovedQuestionsAndAnswers,

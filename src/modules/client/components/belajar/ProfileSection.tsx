@@ -1,13 +1,13 @@
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import React from "react";
-
 import { Skeleton } from "@/common/components/ui/skeleton";
 import ScoreIcon from "@/common/icons/Score";
-
 import useStudent from "../../hooks/useStudent";
 
-const ProfileSection = () => {
+type ProfileSectionProps = {};
+
+const ProfileSection = (props: ProfileSectionProps) => {
+	const {} = props;
 	const { data, status } = useSession();
 	const { student, loadingStudent } = useStudent();
 

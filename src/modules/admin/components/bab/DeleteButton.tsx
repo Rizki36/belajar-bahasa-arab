@@ -14,7 +14,10 @@ import {
 import { Button, buttonVariants } from "@/common/components/ui/button";
 import { trpc } from "@/utils/trpc";
 
-const DeleteBabButton: React.FC = () => {
+type DeleteBabButtonProps = {};
+
+const DeleteBabButton = (props: DeleteBabButtonProps) => {
+	const {} = props;
 	const router = useRouter();
 	const { mutateAsync: deleteBab } = trpc.admin.bab.delete.useMutation();
 	const trpcUtils = trpc.useUtils();

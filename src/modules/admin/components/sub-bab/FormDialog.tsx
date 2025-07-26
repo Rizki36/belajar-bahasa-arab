@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import { TypeOf } from "zod";
+import type { TypeOf } from "zod";
 
 import {
 	Dialog,
@@ -10,7 +10,7 @@ import {
 } from "@/common/components/ui/dialog";
 import { trpc } from "@/utils/trpc";
 
-import SubBabForm, { FormSchema } from "./Form";
+import SubBabForm, { type FormSchema } from "./Form";
 
 const SubBabFormDialog: React.FC<{
 	mode: "create" | "update";

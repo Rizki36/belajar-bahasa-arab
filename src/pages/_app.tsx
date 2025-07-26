@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NextPage } from "next";
+import type { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { Nunito } from "next/font/google";
 import { useRouter } from "next/router";
 import { SessionProvider, useSession } from "next-auth/react";
-import { ReactElement, ReactNode, useEffect } from "react";
+import { type ReactElement, type ReactNode, useEffect } from "react";
 
 import "@/styles/globals.css";
 

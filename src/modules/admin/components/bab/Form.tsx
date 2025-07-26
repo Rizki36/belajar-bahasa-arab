@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -22,7 +21,7 @@ export const FormSchema = z.object({
 			message: "Nomor bab harus berupa angka",
 		})
 		.min(1, {
-			message: "Nomor bab harus lebih dari 1",
+			message: "Nomor bab minimal 1",
 		}),
 	name: z
 		.string({
@@ -33,15 +32,19 @@ export const FormSchema = z.object({
 		}),
 });
 
-const BabForm: React.FC<{
+type BabFormProps = {
 	defaultValues?: z.infer<typeof FormSchema>;
 	onSubmit: (data: z.infer<typeof FormSchema>) => void;
 	loading: boolean;
-}> = ({ onSubmit, defaultValues, loading }) => {
+};
+
+const BabForm = (props: BabFormProps) => {
+	const { onSubmit, defaultValues, loading } = props;
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues,
 	});
+
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

@@ -1,4 +1,4 @@
-import * as React from "react";
+import type * as React from "react";
 
 const ShieldIcon = (props: React.JSX.IntrinsicElements["svg"]) => (
 	<svg

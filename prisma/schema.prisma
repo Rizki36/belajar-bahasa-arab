@@ -13,6 +13,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum ContentType {
+  quiz
+  video
+  pdf
+  mixed
+}
+
 model Bab {
   id        String    @id @default(uuid())
   number    Int
@@ -38,6 +45,11 @@ model SubBab {
 model Lesson {
   id                  String                @id @default(uuid())
   number              Int
+  title               String? // Add title for the lesson
+  description         String? // Add optional description
+  contentType         ContentType           @default(quiz)
+  videoUrl            String? // YouTube video URL
+  pdfUrl              String? // PDF file URL
   createdAt           DateTime              @default(now())
   updatedAt           DateTime              @updatedAt
   babId               String

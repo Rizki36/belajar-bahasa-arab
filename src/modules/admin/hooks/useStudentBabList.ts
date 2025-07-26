@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { RouterOutput, trpc } from "@/utils/trpc";
+import { type RouterOutput, trpc } from "@/utils/trpc";
 
 export type StudentBabDataType =
 	RouterOutput["admin"]["student"]["listBab"]["docs"][number] & {

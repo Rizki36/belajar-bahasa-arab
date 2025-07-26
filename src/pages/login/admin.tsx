@@ -1,10 +1,9 @@
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { signIn } from "next-auth/react";
-import React from "react";
 
 import Button3D from "@/common/components/ui/3d-button";
 
-import { NextPageWithLayout } from "../_app";
+import type { NextPageWithLayout } from "../_app";
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 	// get secret from query

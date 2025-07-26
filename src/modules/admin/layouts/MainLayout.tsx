@@ -1,10 +1,16 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import { cn } from "@/common/utils";
 
 import { SidebarDesktop } from "../components/SidebarDesktop";
 
-const AdminMainLayout = ({ children }: { children: ReactNode }) => {
+type AdminMainLayoutProps = {
+	children: ReactNode;
+};
+
+const AdminMainLayout = (props: AdminMainLayoutProps) => {
+	const { children } = props;
+
 	return (
 		<div className={cn("flex")}>
 			<SidebarDesktop />

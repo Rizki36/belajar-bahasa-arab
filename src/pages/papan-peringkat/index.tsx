@@ -1,15 +1,15 @@
 import Head from "next/head";
 import Image from "next/image";
-import React, { FC, useEffect, useRef } from "react";
+import { type FC, useEffect, useRef } from "react";
 import { Button } from "@/common/components/ui/button";
 import { Spinner } from "@/common/components/ui/spinner";
 import ClientMainLayout from "@/common/layouts/MainLayout";
 import { cn } from "@/common/utils";
 import useLeaderboard, {
-	LeaderboardItem,
+	type LeaderboardItem,
 } from "@/modules/client/hooks/useLeaderboard";
 
-import { NextPageWithLayout } from "../_app";
+import type { NextPageWithLayout } from "../_app";
 
 const LeaderBoardPage: NextPageWithLayout = () => {
 	const {

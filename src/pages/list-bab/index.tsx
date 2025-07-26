@@ -1,7 +1,7 @@
 import { CaretLeftIcon, ReloadIcon } from "@radix-ui/react-icons";
 import Head from "next/head";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import Button3D from "@/common/components/ui/3d-button";
@@ -14,7 +14,7 @@ import useBabList from "@/modules/client/hooks/useBabList";
 import useStudent from "@/modules/client/hooks/useStudent";
 import { trpc } from "@/utils/trpc";
 
-import { NextPageWithLayout } from "../_app";
+import type { NextPageWithLayout } from "../_app";
 
 const ListBabPage: NextPageWithLayout = () => {
 	const trpcUtils = trpc.useUtils();

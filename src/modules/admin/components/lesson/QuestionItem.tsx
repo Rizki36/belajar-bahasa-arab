@@ -1,8 +1,10 @@
 import { InfoCircledIcon } from "@radix-ui/react-icons";
-import React from "react";
-import { Control, UseFieldArrayRemove, useFieldArray } from "react-hook-form";
+import {
+	type Control,
+	type UseFieldArrayRemove,
+	useFieldArray,
+} from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
-
 import { Button } from "@/common/components/ui/button";
 import { Checkbox } from "@/common/components/ui/checkbox";
 import {
@@ -20,7 +22,7 @@ import {
 	TooltipTrigger,
 } from "@/common/components/ui/tooltip";
 
-import { QuestionFormSchemaType } from "./QuestionForm.type";
+import type { QuestionFormSchemaType } from "./QuestionForm.type";
 
 const QuestionItem = ({
 	questionIndex,

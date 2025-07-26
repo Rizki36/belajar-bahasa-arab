@@ -1,6 +1,6 @@
-import { Bab } from "@prisma/client";
+import type { Bab } from "@prisma/client";
 import { toast } from "sonner";
-import { TypeOf } from "zod";
+import type { TypeOf } from "zod";
 
 import {
 	Dialog,
@@ -11,14 +11,17 @@ import {
 } from "@/common/components/ui/dialog";
 import { trpc } from "@/utils/trpc";
 
-import BabForm, { FormSchema } from "./Form";
+import BabForm, { type FormSchema } from "./Form";
 
-const BabFormDialog: React.FC<{
+type BabFormDialogProps = {
 	mode: "create" | "update";
 	open: boolean;
 	setOpen: (open: boolean) => void;
 	bab?: Bab;
-}> = ({ mode, open, setOpen, bab }) => {
+};
+
+const BabFormDialog = (props: BabFormDialogProps) => {
+	const { mode, open, setOpen, bab } = props;
 	const { mutateAsync: createBab, status: createStatus } =
 		trpc.admin.bab.add.useMutation();
 	const { mutateAsync: updateBab, status: updateStatus } =

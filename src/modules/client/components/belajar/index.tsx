@@ -1,7 +1,4 @@
-import React, { FC } from "react";
-
 import { cn } from "@/common/utils";
-
 import Header from "./Header";
 import Lessons from "./Lessons";
 import ProfileSection from "./ProfileSection";
@@ -12,7 +9,9 @@ type BabProps = {
 	babNumber: number;
 };
 
-const Bab: FC<BabProps> = ({ babNumber }) => {
+const Bab = (props: BabProps) => {
+	const { babNumber } = props;
+
 	return (
 		<section className="min-h-svh flex flex-col-reverse lg:flex-row">
 			<div

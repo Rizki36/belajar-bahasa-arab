@@ -15,6 +15,11 @@ import { defaultSelectSubBab } from "./subBab";
 export const defaultSelectLesson = {
 	id: true,
 	number: true,
+	contentType: true,
+	title: true,
+	description: true,
+	pdfUrl: true,
+	videoUrl: true,
 	createdAt: true,
 	updatedAt: true,
 } satisfies Prisma.LessonSelect;
@@ -87,13 +92,39 @@ export const lessonRouter = router({
 			z.object({
 				babId: z.string().uuid(),
 				subBabId: z.string().uuid(),
-				number: z.number().min(1),
+				number: z.number().min(0),
+				title: z.string().optional(),
+				description: z.string().optional(),
+				contentType: z.enum(["quiz", "video", "pdf", "mixed"]).default("quiz"),
+				videoUrl: z
+					.string()
+					.url("URL not valid")
+					.optional()
+					.refine(
+						(val) => {
+							// Skip validation if field is empty
+							if (!val) return true;
+							// Simple regex to validate YouTube URL
+							return /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)/.test(
+								val,
+							);
+						},
+						{
+							message: "URL not valid. Must be a YouTube URL.",
+						},
+					),
+				pdfUrl: z.string().url("URL not valid").optional(),
 			}),
 		)
 		.mutation(async ({ input }) => {
 			const post = await prisma.lesson.create({
 				data: {
 					number: input.number,
+					title: input.title,
+					description: input.description,
+					contentType: input.contentType,
+					pdfUrl: input.pdfUrl,
+					videoUrl: input.videoUrl,
 					bab: {
 						connect: {
 							id: input.babId,
@@ -113,7 +144,28 @@ export const lessonRouter = router({
 		.input(
 			z.object({
 				id: z.string(),
-				number: z.number().min(1),
+				number: z.number().min(0),
+				title: z.string().optional(),
+				description: z.string().optional(),
+				contentType: z.enum(["quiz", "video", "pdf", "mixed"]).default("quiz"),
+				videoUrl: z
+					.string()
+					.url("URL not valid")
+					.optional()
+					.refine(
+						(val) => {
+							// Skip validation if field is empty
+							if (!val) return true;
+							// Simple regex to validate YouTube URL
+							return /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)/.test(
+								val,
+							);
+						},
+						{
+							message: "URL not valid. Must be a YouTube URL.",
+						},
+					),
+				pdfUrl: z.string().url("URL not valid").optional(),
 			}),
 		)
 		.mutation(async ({ input }) => {

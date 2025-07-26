@@ -12,7 +12,7 @@ import { initTRPC, TRPCError } from "@trpc/server";
 
 import { transformer } from "@/utils/transformer";
 
-import { Context } from "./context";
+import type { Context } from "./context";
 
 const t = initTRPC.context<Context>().create({
 	/**

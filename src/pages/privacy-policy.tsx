@@ -1,10 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
-import React from "react";
-
 import { Button } from "@/common/components/ui/button";
-
-import { NextPageWithLayout } from "./_app";
+import type { NextPageWithLayout } from "./_app";
 
 const PrivacyAndPolicyPage: NextPageWithLayout = () => {
 	return (

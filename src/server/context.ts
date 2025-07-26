@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type * as trpcNext from "@trpc/server/adapters/next";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 
 import prisma from "../../prisma/db";
 import { getServerAuthSession } from "./auth";

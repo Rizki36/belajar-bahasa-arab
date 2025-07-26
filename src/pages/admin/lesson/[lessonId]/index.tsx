@@ -12,7 +12,7 @@ import DeleteLessonButton from "@/modules/admin/components/lesson/DeleteButton";
 import LessonFormDialog from "@/modules/admin/components/lesson/FormDialog";
 import QuestionForm from "@/modules/admin/components/lesson/QuestionForm";
 import AdminMainLayout from "@/modules/admin/layouts/MainLayout";
-import { NextPageWithLayout } from "@/pages/_app";
+import type { NextPageWithLayout } from "@/pages/_app";
 import { trpc } from "@/utils/trpc";
 
 const LessonDetailPage: NextPageWithLayout = () => {
@@ -105,19 +105,82 @@ const LessonDetailPage: NextPageWithLayout = () => {
 					</div>
 				</div>
 
-				<div className="flex items-center gap-x-7 mb-5">
-					<div>Acak Soal : {config.randomizeQuestion ? "Ya" : "Tidak"}</div>
-					<div>Acak Pertanyaan : {config.randomizeAnswer ? "Ya" : "Tidak"}</div>
-					<div>
-						<Link href="/admin/setting">
-							<Button size="sm" variant="ghost">
-								Ubah Pengaturan
-							</Button>
-						</Link>
+				{lesson.contentType === "quiz" || lesson.contentType === "mixed" ? (
+					<div className="flex items-center gap-x-7 mb-5">
+						<div>Acak Soal : {config.randomizeQuestion ? "Ya" : "Tidak"}</div>
+						<div>
+							Acak Pertanyaan : {config.randomizeAnswer ? "Ya" : "Tidak"}
+						</div>
+						<div>
+							<Link href="/admin/setting">
+								<Button size="sm" variant="ghost">
+									Ubah Pengaturan
+								</Button>
+							</Link>
+						</div>
 					</div>
-				</div>
+				) : null}
 
-				<QuestionForm lessonId={id} />
+				{(lesson?.contentType === "quiz" ||
+					lesson?.contentType === "mixed") && <QuestionForm lessonId={id} />}
+
+				{(lesson?.contentType === "pdf" ||
+					lesson?.contentType === "video" ||
+					lesson?.contentType === "mixed") && (
+					<Card className="p-6 mb-8">
+						<div className="flex flex-col gap-4">
+							{lesson.title && (
+								<div>
+									<div className="text-sm font-medium mb-1">Judul</div>
+									<div className="text-xl">{lesson.title}</div>
+								</div>
+							)}
+
+							{lesson.description && (
+								<div>
+									<div className="text-sm font-medium mb-1">Deskripsi</div>
+									<div className="text-base">{lesson.description}</div>
+								</div>
+							)}
+
+							{lesson.contentType === "pdf" || lesson.contentType === "mixed"
+								? lesson.pdfUrl && (
+										<div>
+											<div className="text-sm font-medium mb-1">URL PDF</div>
+											<div className="text-base break-all">
+												<a
+													href={lesson.pdfUrl}
+													target="_blank"
+													rel="noopener noreferrer"
+													className="text-blue-600 hover:underline"
+												>
+													{lesson.pdfUrl}
+												</a>
+											</div>
+										</div>
+									)
+								: null}
+
+							{lesson.contentType === "video" || lesson.contentType === "mixed"
+								? lesson.videoUrl && (
+										<div>
+											<div className="text-sm font-medium mb-1">URL Video</div>
+											<div className="text-base break-all">
+												<a
+													href={lesson.videoUrl}
+													target="_blank"
+													rel="noopener noreferrer"
+													className="text-blue-600 hover:underline"
+												>
+													{lesson.videoUrl}
+												</a>
+											</div>
+										</div>
+									)
+								: null}
+						</div>
+					</Card>
+				)}
 
 				<LessonFormDialog
 					mode={lessonDialog.mode}
@@ -131,10 +194,7 @@ const LessonDetailPage: NextPageWithLayout = () => {
 					subBab={{
 						id: lesson?.subBab.id || "",
 					}}
-					lesson={{
-						id: lesson?.id || "",
-						number: lesson?.number || 0,
-					}}
+					lesson={lesson}
 				/>
 			</div>
 		</>

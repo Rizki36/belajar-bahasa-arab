@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import { TypeOf } from "zod";
+import type { TypeOf } from "zod";
 
 import {
 	Dialog,
@@ -10,16 +10,26 @@ import {
 } from "@/common/components/ui/dialog";
 import { trpc } from "@/utils/trpc";
 
-import LessonForm, { FormSchema } from "./Form";
+import LessonForm, { type FormSchema } from "./Form";
 
-const LessonFormDialog: React.FC<{
+type LessonFormDialogProps = {
 	mode: "create" | "update";
 	open: boolean;
 	bab?: { id: string };
 	subBab?: { id: string };
-	lesson?: { id: string; number: number };
+	lesson?: {
+		id: string;
+		number: number;
+		title: string | null;
+		description: string | null;
+		videoUrl: string | null;
+		contentType: "quiz" | "video" | "pdf" | "mixed";
+	};
 	setOpen: (open: boolean) => void;
-}> = ({ mode, bab, subBab, lesson, open, setOpen }) => {
+};
+
+const LessonFormDialog = (props: LessonFormDialogProps) => {
+	const { mode, bab, subBab, lesson, open, setOpen } = props;
 	const { mutateAsync: createLesson, status: createStatus } =
 		trpc.admin.lesson.add.useMutation();
 	const { mutateAsync: updateLesson, status: updateStatus } =
@@ -86,7 +96,17 @@ const LessonFormDialog: React.FC<{
 				</DialogHeader>
 				<div>
 					<LessonForm
-						defaultValues={lesson ? { number: lesson.number } : undefined}
+						defaultValues={
+							lesson
+								? {
+										number: lesson.number,
+										contentType: lesson.contentType || "quiz",
+										description: lesson.description || undefined,
+										title: lesson.title || undefined,
+										videoUrl: lesson.videoUrl || undefined,
+									}
+								: undefined
+						}
 						onSubmit={handleSubmit}
 						loading={loading}
 					/>

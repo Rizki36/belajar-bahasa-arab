@@ -49,7 +49,12 @@ export const columns = [
 	}),
 ];
 
-const SubBabListTable: React.FC<{ id: string }> = ({ id }) => {
+type SubBabListTableProps = {
+	id: string;
+};
+
+const SubBabListTable = (props: SubBabListTableProps) => {
+	const { id } = props;
 	const [subBabDialog, setSubBabDialog] = React.useState({
 		open: false,
 		mode: "create" as "create" | "update",

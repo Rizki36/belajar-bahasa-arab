@@ -27,7 +27,7 @@ import DeleteBabButton from "@/modules/admin/components/bab/DeleteButton";
 import BabFormDialog from "@/modules/admin/components/bab/FormDialog";
 import SubBabListTable from "@/modules/admin/components/bab/SubBabTable";
 import AdminMainLayout from "@/modules/admin/layouts/MainLayout";
-import { NextPageWithLayout } from "@/pages/_app";
+import type { NextPageWithLayout } from "@/pages/_app";
 import { trpc } from "@/utils/trpc";
 
 const BabDetailPage: NextPageWithLayout = () => {

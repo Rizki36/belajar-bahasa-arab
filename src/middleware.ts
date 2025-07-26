@@ -1,6 +1,6 @@
 // https://github.com/hiteshchoudhary/nextjs-fullstack-auth/tree/main
 import { type NextRequest, NextResponse } from "next/server";
-import { JWT } from "next-auth/jwt";
+import type { JWT } from "next-auth/jwt";
 // import { NextResponse } from "next/server";
 import { withAuth } from "next-auth/middleware";
 

@@ -1,64 +1,21 @@
 import Link from "next/link";
-import { FC, useEffect, useState } from "react";
-
 import { Skeleton } from "@/common/components/ui/skeleton";
 import { cn } from "@/common/utils";
-
+import useActiveSubBab from "../../hooks/useActiveSubBab";
 import useBab from "../../hooks/useBab";
-import useSubBabList, { SubBabWithLesson } from "../../hooks/useSubBab";
+import useSubBabList from "../../hooks/useSubBab";
 
 type HeaderProps = {
 	babNumber: number;
 };
 
-const Header: FC<HeaderProps> = ({ babNumber }) => {
-	const [activeSubBab, setActiveSubBab] = useState<SubBabWithLesson | null>(
-		null,
-	);
-
+const Header = (props: HeaderProps) => {
+	const { babNumber } = props;
 	const { bab, isLoading: loadingBab } = useBab({ babNumber });
 	const { subBabList } = useSubBabList({ babNumber });
+	const { activeSubBab } = useActiveSubBab(subBabList);
 
-	useEffect(() => {
-		if (!activeSubBab && subBabList?.length) {
-			setActiveSubBab(subBabList[0]);
-		}
-	}, [activeSubBab, subBabList]);
-
-	useEffect(() => {
-		const handleScroll = () => {
-			if (!subBabList) return;
-
-			const items = subBabList.map((subBab) => {
-				const subBabElement = document.getElementById(subBab.id);
-				if (!subBabElement) {
-					return null;
-				}
-
-				return {
-					id: subBab.id,
-					top: subBabElement.getBoundingClientRect().top,
-					item: subBab,
-				};
-			});
-
-			// find the closest item to the top
-			let closestItem = items[0];
-
-			items.forEach((item) => {
-				if (item && item.top < 0) {
-					closestItem = item;
-				}
-			});
-
-			if (closestItem?.item) setActiveSubBab(closestItem?.item);
-		};
-
-		window.addEventListener("scroll", handleScroll);
-		return () => {
-			window.removeEventListener("scroll", handleScroll);
-		};
-	}, [subBabList]);
+	console.log({ activeSubBab });
 
 	return (
 		<div className={cn("top-0 sticky z-10")}>

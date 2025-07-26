@@ -1,5 +1,4 @@
-import { cva, VariantProps } from "class-variance-authority";
-import React, { FC } from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 import QRCode from "react-qr-code";
 import {
 	FacebookIcon,
@@ -47,11 +46,9 @@ const iconFillColor: Record<Variant, string> = {
 	ghost: "#d7d7d7",
 };
 
-const ShareSection: FC<ShareSectionProps> = ({
-	className,
-	variant = "default",
-	url,
-}) => {
+const ShareSection = (props: ShareSectionProps) => {
+	const { className, variant = "default", url } = props;
+
 	return (
 		<section
 			className={cn(
