@@ -12,11 +12,11 @@ import { cn } from "@/common/utils";
 import ShareSection from "@/modules/client/components/belajar/ShareSection";
 import EndModal from "@/modules/client/components/lesson/EndModal";
 import useStudent from "@/modules/client/hooks/useStudent";
-import { RouterOutput, trpc } from "@/utils/trpc";
+import { type RouterOutput, trpc } from "@/utils/trpc";
 import { QuizLessonFormSchema, QuizLessonFormType } from "../../schema";
 import AnswerButton from "./AnswerButton";
 
-type Data = RouterOutput["student"]["lesson"]["data"];
+type LessonData = RouterOutput["student"]["lesson"]["data"];
 type Questions = RouterOutput["student"]["lesson"]["listQuestion"]["questions"];
 
 const maxHeartCount = 3;
@@ -56,9 +56,9 @@ const Answer: FC<{
 };
 
 const QuizLesson: FC<{
-	lesson: Data["lesson"] | undefined;
-	bab: Data["bab"] | undefined;
-	subBab: Data["subBab"] | undefined;
+	lesson: LessonData["lesson"] | undefined;
+	bab: LessonData["bab"] | undefined;
+	subBab: LessonData["subBab"] | undefined;
 }> = ({ bab, subBab, lesson }) => {
 	const [score, setScore] = useState(0);
 	const [star, setStar] = useState(0);
@@ -176,19 +176,21 @@ const QuizLesson: FC<{
 					];
 
 					const newHeartCount = result.isCorrect ? heartCount : heartCount - 1;
+					const isHeartCountZero = newHeartCount <= 0;
 
-					if (isLastQuestion) return endLesson(newHeartCount, newMyAnswers);
+					setMyAnswers(newMyAnswers);
 
-					if (result.isCorrect) {
-						setQuestionIndex((prev) => prev + 1);
-						form.reset();
-					}
 					if (!result.isCorrect) {
 						form.setValue("isIncorrect", true);
 						setHeartCount((prev) => prev - 1);
 					}
 
-					setMyAnswers(newMyAnswers);
+					if (isLastQuestion || isHeartCountZero) {
+						return endLesson(newHeartCount, newMyAnswers);
+					}
+
+					setQuestionIndex((prev) => prev + 1);
+					form.reset();
 				},
 				onError: (error) => {
 					console.error(error);
