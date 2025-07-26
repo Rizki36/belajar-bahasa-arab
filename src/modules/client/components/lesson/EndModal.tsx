@@ -41,6 +41,9 @@ const EndModal: FC<{
 			<DialogContent
 				withCloseButton={false}
 				className="border-4 border-primary !rounded-xl bg-primary md:w-[450px] w-[95%]"
+				onInteractOutside={(e) => {
+					e.preventDefault();
+				}}
 			>
 				<div className="flex items-center justify-center gap-x-3 mt-6 mb-2">
 					<StarIcon filled={star >= 1} className="size-[60px]" />
