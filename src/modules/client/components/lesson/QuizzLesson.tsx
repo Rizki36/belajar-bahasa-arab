@@ -177,16 +177,15 @@ const QuizLesson: FC<{
 
 					const newHeartCount = result.isCorrect ? heartCount : heartCount - 1;
 
-					// TODO: refactor this logic
+					if (isLastQuestion) return endLesson(newHeartCount, newMyAnswers);
+
 					if (result.isCorrect) {
-						if (isLastQuestion) return endLesson(newHeartCount, newMyAnswers);
 						setQuestionIndex((prev) => prev + 1);
 						form.reset();
 					}
 					if (!result.isCorrect) {
 						form.setValue("isIncorrect", true);
 						setHeartCount((prev) => prev - 1);
-						if (!newHeartCount) return endLesson(newHeartCount, newMyAnswers);
 					}
 
 					setMyAnswers(newMyAnswers);

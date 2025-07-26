@@ -21,39 +21,35 @@ const AnswerButton = (props: AnserButtonProps) => {
 		name: "isIncorrect",
 	});
 
-	return (
-		<>
-			{isIncorrect ? (
-				<>
-					<Button3D
-						type="button"
-						variant="destructive"
-						className="w-full"
-						frontClassName="!py-8 text-lg font-semibold"
-						onClick={() => {
-							onContinue();
-						}}
-					>
-						Lanjut
-					</Button3D>
-					<div className="text-white text-center mt-3">Jawaban Anda salah.</div>
-				</>
-			) : (
+	if (isIncorrect) {
+		return (
+			<>
 				<Button3D
-					type="submit"
-					variant="white"
+					type="button"
+					variant="destructive"
 					className="w-full"
 					frontClassName="!py-8 text-lg font-semibold"
-					disabled={!answer || loading}
+					onClick={() => {
+						onContinue();
+					}}
 				>
-					{loading ? (
-						<ReloadIcon className="mr-2 size-6 animate-spin" />
-					) : (
-						"Jawab"
-					)}
+					Lanjut
 				</Button3D>
-			)}
-		</>
+				<div className="text-white text-center mt-3">Jawaban Anda salah.</div>
+			</>
+		);
+	}
+
+	return (
+		<Button3D
+			type="submit"
+			variant="white"
+			className="w-full"
+			frontClassName="!py-8 text-lg font-semibold"
+			disabled={!answer || loading}
+		>
+			{loading ? <ReloadIcon className="mr-2 size-6 animate-spin" /> : "Jawab"}
+		</Button3D>
 	);
 };
 
