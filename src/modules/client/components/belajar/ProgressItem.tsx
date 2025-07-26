@@ -4,15 +4,7 @@ import React from "react";
 import { cn } from "@/common/utils";
 import StarIcon from "../../icons/Star";
 
-const ProgressItem = ({
-	starCount,
-	href,
-	style,
-	disabled,
-	className,
-	contentType = "quiz",
-	isCompleted,
-}: {
+type ProgressItemProps = {
 	starCount: number;
 	href: string;
 	style: React.CSSProperties;
@@ -20,7 +12,18 @@ const ProgressItem = ({
 	className: string;
 	contentType?: "quiz" | "video" | "pdf" | "mixed";
 	isCompleted?: boolean;
-}) => {
+};
+
+const ProgressItem = (props: ProgressItemProps) => {
+	const {
+		starCount,
+		href,
+		style,
+		disabled,
+		className,
+		contentType = "quiz",
+		isCompleted,
+	} = props;
 	const router = useRouter();
 
 	const ContentTypeIcon = () => {

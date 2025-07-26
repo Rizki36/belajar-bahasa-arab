@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Skeleton } from "@/common/components/ui/skeleton";
 import { cn } from "@/common/utils";
@@ -11,7 +11,8 @@ type HeaderProps = {
 	babNumber: number;
 };
 
-const Header: FC<HeaderProps> = ({ babNumber }) => {
+const Header = (props: HeaderProps) => {
+	const { babNumber } = props;
 	const [activeSubBab, setActiveSubBab] = useState<SubBabWithLesson | null>(
 		null,
 	);

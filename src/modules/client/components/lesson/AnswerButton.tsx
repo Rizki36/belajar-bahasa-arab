@@ -4,11 +4,15 @@ import { useWatch } from "react-hook-form";
 import Button3D from "@/common/components/ui/3d-button";
 import { QuizLessonFormType } from "../../schema";
 
-const AnswerButton: FC<{
+type AnserButtonProps = {
 	form: QuizLessonFormType;
 	onContinue: () => void;
 	loading: boolean;
-}> = ({ onContinue, form, loading }) => {
+};
+
+const AnswerButton = (props: AnserButtonProps) => {
+	const { form, onContinue, loading } = props;
+
 	const answer = useWatch({
 		control: form.control,
 		name: "answer",

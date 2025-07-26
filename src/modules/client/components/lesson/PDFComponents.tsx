@@ -16,15 +16,17 @@ type PDFComponentsProps = {
 	setPageNumber: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const PDFComponents: React.FC<PDFComponentsProps> = ({
-	pdfUrl,
-	pageNumber,
-	onDocumentLoadSuccess,
-	isDesktop,
-	pdfLoading,
-	numPages,
-	setPageNumber,
-}) => {
+const PDFComponents = (props: PDFComponentsProps) => {
+	const {
+		pdfUrl,
+		pageNumber,
+		onDocumentLoadSuccess,
+		isDesktop,
+		pdfLoading,
+		numPages,
+		setPageNumber,
+	} = props;
+
 	return (
 		<>
 			<Document

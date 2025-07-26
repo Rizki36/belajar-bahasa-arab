@@ -33,15 +33,19 @@ export const FormSchema = z.object({
 		}),
 });
 
-const BabForm: React.FC<{
+type BabFormProps = {
 	defaultValues?: z.infer<typeof FormSchema>;
 	onSubmit: (data: z.infer<typeof FormSchema>) => void;
 	loading: boolean;
-}> = ({ onSubmit, defaultValues, loading }) => {
+};
+
+const BabForm = (props: BabFormProps) => {
+	const { onSubmit, defaultValues, loading } = props;
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues,
 	});
+
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

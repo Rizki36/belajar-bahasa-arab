@@ -13,12 +13,15 @@ import { trpc } from "@/utils/trpc";
 
 import BabForm, { FormSchema } from "./Form";
 
-const BabFormDialog: React.FC<{
+type BabFormDialogProps = {
 	mode: "create" | "update";
 	open: boolean;
 	setOpen: (open: boolean) => void;
 	bab?: Bab;
-}> = ({ mode, open, setOpen, bab }) => {
+};
+
+const BabFormDialog = (props: BabFormDialogProps) => {
+	const { mode, open, setOpen, bab } = props;
 	const { mutateAsync: createBab, status: createStatus } =
 		trpc.admin.bab.add.useMutation();
 	const { mutateAsync: updateBab, status: updateStatus } =

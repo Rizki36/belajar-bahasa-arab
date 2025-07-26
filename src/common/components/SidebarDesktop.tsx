@@ -9,7 +9,10 @@ import { cn, isActiveLink } from "../utils";
 import Button3D from "./ui/3d-button";
 import { Button } from "./ui/button";
 
-const SidebarDesktop = () => {
+type SidebarDesktopProps = {};
+
+const SidebarDesktop = (props: SidebarDesktopProps) => {
+	const {} = props;
 	const router = useRouter();
 
 	return (

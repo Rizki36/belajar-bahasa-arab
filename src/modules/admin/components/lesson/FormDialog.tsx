@@ -12,7 +12,7 @@ import { trpc } from "@/utils/trpc";
 
 import LessonForm, { FormSchema } from "./Form";
 
-const LessonFormDialog: React.FC<{
+type LessonFormDialogProps = {
 	mode: "create" | "update";
 	open: boolean;
 	bab?: { id: string };
@@ -26,7 +26,10 @@ const LessonFormDialog: React.FC<{
 		contentType: "quiz" | "video" | "pdf" | "mixed";
 	};
 	setOpen: (open: boolean) => void;
-}> = ({ mode, bab, subBab, lesson, open, setOpen }) => {
+};
+
+const LessonFormDialog = (props: LessonFormDialogProps) => {
+	const { mode, bab, subBab, lesson, open, setOpen } = props;
 	const { mutateAsync: createLesson, status: createStatus } =
 		trpc.admin.lesson.add.useMutation();
 	const { mutateAsync: updateLesson, status: updateStatus } =

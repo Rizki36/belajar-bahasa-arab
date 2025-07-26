@@ -7,7 +7,10 @@ import ScoreIcon from "@/common/icons/Score";
 
 import useStudent from "../../hooks/useStudent";
 
-const ProfileSection = () => {
+type ProfileSectionProps = {};
+
+const ProfileSection = (props: ProfileSectionProps) => {
+	const {} = props;
 	const { data, status } = useSession();
 	const { student, loadingStudent } = useStudent();
 

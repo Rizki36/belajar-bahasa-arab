@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 
 import { cn } from "@/common/utils";
 
@@ -12,7 +12,9 @@ type BabProps = {
 	babNumber: number;
 };
 
-const Bab: FC<BabProps> = ({ babNumber }) => {
+const Bab = (props: BabProps) => {
+	const { babNumber } = props;
+
 	return (
 		<section className="min-h-svh flex flex-col-reverse lg:flex-row">
 			<div

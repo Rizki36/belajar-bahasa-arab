@@ -1,4 +1,3 @@
-import React, { FC } from "react";
 import { Spinner } from "@/common/components/ui/spinner";
 import useSubBabList from "../../hooks/useSubBab";
 import ProgressItem from "./ProgressItem";
@@ -7,7 +6,8 @@ type LessonsProps = {
 	babNumber: number;
 };
 
-const Lessons: FC<LessonsProps> = ({ babNumber }) => {
+const Lessons = (props: LessonsProps) => {
+	const { babNumber } = props;
 	const { subBabList, loadingSubBabList } = useSubBabList({ babNumber });
 
 	return (

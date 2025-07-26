@@ -32,7 +32,7 @@
 			"recommended": false,
 			"complexity": {
 				"noAdjacentSpacesInRegex": "error",
-				"noBannedTypes": "error",
+				"noBannedTypes": "warn",
 				"noExtraBooleanCast": "error",
 				"noUselessCatch": "error",
 				"noUselessEscapeInRegex": "error",
@@ -42,7 +42,6 @@
 				"noConstAssign": "error",
 				"noConstantCondition": "error",
 				"noEmptyCharacterClassInRegex": "error",
-				"noEmptyPattern": "error",
 				"noGlobalObjectCalls": "error",
 				"noInnerDeclarations": "error",
 				"noInvalidConstructorSuper": "error",

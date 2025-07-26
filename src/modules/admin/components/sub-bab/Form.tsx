@@ -34,11 +34,14 @@ export const FormSchema = z.object({
 		.optional(),
 });
 
-const SubBabForm: React.FC<{
+type SubBabFormProps = {
 	defaultValues?: z.infer<typeof FormSchema>;
 	onSubmit: (data: z.infer<typeof FormSchema>) => void;
 	loading: boolean;
-}> = ({ defaultValues, onSubmit, loading }) => {
+};
+
+const SubBabForm = (props: SubBabFormProps) => {
+	const { defaultValues, onSubmit, loading } = props;
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues,

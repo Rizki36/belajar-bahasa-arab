@@ -27,7 +27,10 @@ const menuItems = [
 	},
 ];
 
-export const SidebarDesktop = () => {
+type SidebarDesktopProps = {};
+
+export const SidebarDesktop = (props: SidebarDesktopProps) => {
+	const {} = props;
 	const router = useRouter();
 
 	return (

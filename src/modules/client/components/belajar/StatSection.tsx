@@ -1,11 +1,16 @@
-import React, { FC } from "react";
+import React from "react";
 
 import { Progress } from "@/common/components/ui/progress";
 
 import useBab from "../../hooks/useBab";
 import useProgress from "../../hooks/useProgress";
 
-const StatSection: FC<{ babNumber: number }> = ({ babNumber }) => {
+type StatSectionProps = {
+	babNumber: number;
+};
+
+const StatSection = (props: StatSectionProps) => {
+	const { babNumber } = props;
 	const { bab } = useBab({ babNumber });
 	const { myLesson, totalLesson, progress } = useProgress({ babId: bab?.id! });
 

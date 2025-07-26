@@ -5,7 +5,13 @@ import SidebarDesktop from "../components/SidebarDesktop";
 import { menuItems } from "../constants";
 import { cn } from "../utils";
 
-const ClientMainLayout = ({ children }: { children: ReactNode }) => {
+type ClientMainLayoutProps = {
+	children: ReactNode;
+};
+
+const ClientMainLayout = (props: ClientMainLayoutProps) => {
+	const { children } = props;
+
 	return (
 		<div className={cn("flex relative", "md:pl-[60px]", "lg:pl-[250px]")}>
 			<SidebarDesktop />

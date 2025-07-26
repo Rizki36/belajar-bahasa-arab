@@ -158,3 +158,26 @@ try {
   - Use **PascalCase** for component names.
   - Use **camelCase** for function and variable names.
   - Use **UPPERCASE_SNAKE_CASE** for constants.
+
+## Component Structure
+
+### Component Definition Style
+
+- Define component props as a separate TypeScript type above the component.
+- Use the function expression syntax with explicit props typing.
+- Destructure props at the beginning of the component function.
+
+#### Example
+
+```tsx
+type AnswerButtonProps = {
+    form: QuizLessonFormType;
+    onContinue: () => void;
+    loading: boolean;
+};
+
+const AnswerButton = (props: AnswerButtonProps) => {
+    const { form, onContinue, loading } = props;
+    // Component implementation
+};
+```
