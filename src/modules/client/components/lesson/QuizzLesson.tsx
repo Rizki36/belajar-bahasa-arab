@@ -1,63 +1,24 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { HeartFilledIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
-import { type FC, useId, useMemo, useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { type FC, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
 import { Button } from "@/common/components/ui/button";
 import { Form } from "@/common/components/ui/form";
 import { Progress } from "@/common/components/ui/progress";
 import { Spinner } from "@/common/components/ui/spinner";
 import useSystemSetting from "@/common/hooks/useSystemSetting";
-import { cn } from "@/common/utils";
 import ShareSection from "@/modules/client/components/belajar/ShareSection";
 import EndModal from "@/modules/client/components/lesson/EndModal";
 import useStudent from "@/modules/client/hooks/useStudent";
 import { type RouterOutput, trpc } from "@/utils/trpc";
-import { QuizLessonFormSchema, type QuizLessonFormType } from "../../schema";
+import { QuizLessonFormSchema, type QuizLessonFormValues } from "../../schema";
 import AnswerButton from "./AnswerButton";
+import AnswerOption from "./AnswerOption";
 
 type LessonData = RouterOutput["student"]["lesson"]["data"];
-type Questions = RouterOutput["student"]["lesson"]["listQuestion"]["questions"];
 
 const maxHeartCount = 3;
-
-type AnswerProps = {
-	answer: Questions[number]["answer"][number];
-	form: QuizLessonFormType;
-	loading: boolean;
-};
-
-const Answer = (props: AnswerProps) => {
-	const { answer, form, loading } = props;
-
-	const id = useId();
-	const isIncorrect = useWatch({
-		control: form.control,
-		name: "isIncorrect",
-	});
-
-	return (
-		<div className="relative">
-			<input
-				{...form.register("answer")}
-				type="radio"
-				className="peer hidden"
-				id={id}
-				value={answer?.id}
-				disabled={isIncorrect || loading}
-			/>
-			<label
-				htmlFor={id}
-				className={cn(
-					"flex select-none text-xl text-white text-center font-semibold transition duration-200 bg-primary shadow-lg items-center justify-center cursor-pointer min-h-24 flex-col rounded-lg border-2 border-white p-4 hover:shadow-lg",
-					"peer-checked:border-2 peer-checked:bg-white peer-checked:text-black peer-disabled:cursor-not-allowed",
-				)}
-			>
-				{answer?.answer ?? ""}
-			</label>
-		</div>
-	);
-};
 
 const QuizLesson: FC<{
 	lesson: LessonData["lesson"] | undefined;
@@ -76,7 +37,7 @@ const QuizLesson: FC<{
 		}[]
 	>([]);
 
-	const form = useForm<QuizLessonFormType>({
+	const form = useForm<QuizLessonFormValues>({
 		resolver: zodResolver(QuizLessonFormSchema),
 	});
 
@@ -161,7 +122,7 @@ const QuizLesson: FC<{
 		);
 	};
 
-	const onSubmit = (data: QuizLessonFormType) => {
+	const onSubmit = (data: QuizLessonFormValues) => {
 		checkAnswer(
 			{
 				questionId: question.id,
@@ -259,7 +220,7 @@ const QuizLesson: FC<{
 						<form onSubmit={form.handleSubmit(onSubmit)}>
 							<div className="space-y-6">
 								{answers.map((answer) => (
-									<Answer
+									<AnswerOption
 										key={answer.id}
 										answer={answer}
 										form={form}

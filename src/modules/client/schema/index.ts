@@ -6,5 +6,6 @@ export const QuizLessonFormSchema = z.object({
 	isIncorrect: z.boolean().optional(),
 });
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-export type QuizLessonFormType = any;
+export type QuizLessonFormValues = z.infer<typeof QuizLessonFormSchema>;
+
+export type QuizLessonFormType = UseFormReturn<QuizLessonFormValues>;
