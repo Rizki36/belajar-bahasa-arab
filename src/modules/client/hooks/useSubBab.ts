@@ -1,13 +1,10 @@
-import { inferRouterOutputs } from "@trpc/server";
-
-import { AppRouter } from "@/server/routers/_app";
-import { trpc } from "@/utils/trpc";
+import { type RouterOutput, trpc } from "@/utils/trpc";
 
 import useBab from "./useBab";
 import useStudent from "./useStudent";
 
 export type SubBabWithLesson =
-	inferRouterOutputs<AppRouter>["student"]["learn"]["subBabList"]["subBabList"][number];
+	RouterOutput["student"]["learn"]["subBabList"]["subBabList"][number];
 
 const useSubBabList = ({ babNumber }: { babNumber: number }) => {
 	const { student } = useStudent();
