@@ -1,4 +1,4 @@
-import { RouterOutput, trpc } from "@/utils/trpc";
+import { type RouterOutput, trpc } from "@/utils/trpc";
 
 export type StudentDataType =
 	RouterOutput["admin"]["student"]["list"]["docs"][number];
