@@ -189,8 +189,10 @@ const QuizLesson: FC<{
 						return endLesson(newHeartCount, newMyAnswers);
 					}
 
-					setQuestionIndex((prev) => prev + 1);
-					form.reset();
+					if (result.isCorrect) {
+						setQuestionIndex((prev) => prev + 1);
+						form.reset();
+					}
 				},
 				onError: (error) => {
 					console.error(error);
