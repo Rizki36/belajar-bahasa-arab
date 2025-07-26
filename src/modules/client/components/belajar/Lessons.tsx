@@ -17,6 +17,44 @@ const isPreviousLessonCompleted = (
 				?.studentLessonResult?.[0] !== undefined;
 };
 
+// Function to calculate lesson item positioning and status
+const calculateLessonItem = (
+	index: number,
+	item: SubBabWithLesson["lesson"][number],
+	subBab: SubBabWithLesson,
+	previousLessonCompleted: boolean,
+) => {
+	const itemPerSide = 2;
+	const spacePerItem = 40;
+
+	// Fixed positioning logic for zigzag pattern
+	// For left side items (0, 1, 4, 5, etc.) - increasing from left
+	// For right side items (2, 3, 6, 7, etc.) - decreasing from right
+	const isLeftSide = Math.floor(index / itemPerSide) % 2 === 0;
+	const left = isLeftSide
+		? (index % itemPerSide) * spacePerItem
+		: (itemPerSide - 1 - (index % itemPerSide)) * spacePerItem;
+
+	const lessonResult = item?.studentLessonResult?.[0];
+	const isCompleted = !!lessonResult;
+
+	// Determine if this lesson should be enabled
+	const isEnabled =
+		index === 0
+			? previousLessonCompleted
+			: !!subBab.lesson[index - 1]?.studentLessonResult?.[0];
+
+	// Return all calculated values
+	return {
+		left,
+		lessonResult,
+		isCompleted,
+		isEnabled,
+		// Return updated previousLessonCompleted status
+		updatedPreviousLessonStatus: isCompleted ? true : previousLessonCompleted,
+	};
+};
+
 const Lessons = (props: LessonsProps) => {
 	const { babNumber } = props;
 	const { subBabList, loadingSubBabList } = useSubBabList({ babNumber });
@@ -54,30 +92,21 @@ const Lessons = (props: LessonsProps) => {
 						) : null}
 
 						{subBab.lesson.map((item, index) => {
-							const itemPerSide = 2;
-							const spacePerItem = 40;
-
-							// Fixed positioning logic for zigzag pattern
-							// For left side items (0, 1, 4, 5, etc.) - increasing from left
-							// For right side items (2, 3, 6, 7, etc.) - decreasing from right
-							const isLeftSide = Math.floor(index / itemPerSide) % 2 === 0;
-							const left = isLeftSide
-								? (index % itemPerSide) * spacePerItem
-								: (itemPerSide - 1 - (index % itemPerSide)) * spacePerItem;
-
-							const lessonResult = item?.studentLessonResult?.[0];
-							const isCompleted = !!lessonResult;
-
-							// Determine if this lesson should be enabled
-							const isEnabled =
-								index === 0
-									? previousLessonCompleted
-									: !!subBab.lesson[index - 1]?.studentLessonResult?.[0];
+							const {
+								left,
+								lessonResult,
+								isCompleted,
+								isEnabled,
+								updatedPreviousLessonStatus,
+							} = calculateLessonItem(
+								index,
+								item,
+								subBab,
+								previousLessonCompleted,
+							);
 
 							// Update for next lesson in this subBab
-							if (isCompleted) {
-								previousLessonCompleted = true;
-							}
+							previousLessonCompleted = updatedPreviousLessonStatus;
 
 							return (
 								<ProgressItem
