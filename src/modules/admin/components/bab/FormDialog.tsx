@@ -10,8 +10,8 @@ import {
 	DialogTitle,
 } from "@/common/components/ui/dialog";
 import { trpc } from "@/utils/trpc";
-
-import BabForm, { type FormSchema } from "./Form";
+import type { BabFormFormSchema, BabFormFormValues } from "../../schema";
+import BabForm from "./Form";
 
 type BabFormDialogProps = {
 	mode: "create" | "update";
@@ -30,7 +30,7 @@ const BabFormDialog = (props: BabFormDialogProps) => {
 
 	const loading = createStatus === "pending" || updateStatus === "pending";
 
-	const handleCreate = async (data: TypeOf<typeof FormSchema>) => {
+	const handleCreate = async (data: BabFormFormValues) => {
 		try {
 			await createBab(data);
 			setOpen(false);
@@ -42,7 +42,7 @@ const BabFormDialog = (props: BabFormDialogProps) => {
 		}
 	};
 
-	const handleUpdate = async (data: TypeOf<typeof FormSchema>) => {
+	const handleUpdate = async (data: TypeOf<typeof BabFormFormSchema>) => {
 		try {
 			if (!bab?.id) throw new Error("Bab ID is missing");
 
@@ -59,7 +59,7 @@ const BabFormDialog = (props: BabFormDialogProps) => {
 		}
 	};
 
-	const handleSubmit = async (data: TypeOf<typeof FormSchema>) => {
+	const handleSubmit = async (data: TypeOf<typeof BabFormFormSchema>) => {
 		if (mode === "create") {
 			await handleCreate(data);
 		}

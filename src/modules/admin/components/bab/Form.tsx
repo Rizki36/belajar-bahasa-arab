@@ -1,8 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-
 import { Button } from "@/common/components/ui/button";
 import {
 	Form,
@@ -14,34 +12,18 @@ import {
 	FormMessage,
 } from "@/common/components/ui/form";
 import { Input } from "@/common/components/ui/input";
-
-export const FormSchema = z.object({
-	number: z.coerce
-		.number({
-			message: "Nomor bab harus berupa angka",
-		})
-		.min(1, {
-			message: "Nomor bab minimal 1",
-		}),
-	name: z
-		.string({
-			message: "Nama bab harus berupa teks",
-		})
-		.max(25, {
-			message: "Nama bab tidak boleh lebih dari 25 karakter",
-		}),
-});
+import { BabFormFormSchema, type BabFormFormValues } from "../../schema";
 
 type BabFormProps = {
-	defaultValues?: z.infer<typeof FormSchema>;
-	onSubmit: (data: z.infer<typeof FormSchema>) => void;
+	defaultValues?: BabFormFormValues;
+	onSubmit: (data: BabFormFormValues) => void;
 	loading: boolean;
 };
 
 const BabForm = (props: BabFormProps) => {
 	const { onSubmit, defaultValues, loading } = props;
-	const form = useForm<z.infer<typeof FormSchema>>({
-		resolver: zodResolver(FormSchema),
+	const form = useForm<BabFormFormValues>({
+		resolver: zodResolver(BabFormFormSchema),
 		defaultValues,
 	});
 
