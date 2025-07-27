@@ -14,8 +14,8 @@ export const defaultConfig: Config = {
 	randomizeQuestion: false,
 	randomizeAnswer: false,
 	defaultScore: 10,
-	adminManualBookUrl: '',
-	studentManualBookUrl: '',
+	adminManualBookUrl: "",
+	studentManualBookUrl: "",
 };
 
 export const generateConfig = (
