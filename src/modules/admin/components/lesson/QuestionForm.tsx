@@ -8,10 +8,8 @@ import { Button } from "@/common/components/ui/button";
 import { Form } from "@/common/components/ui/form";
 import useSystemSetting from "@/common/hooks/useSystemSetting";
 import { trpc } from "@/utils/trpc";
-
+import { QuestionFormSchema, type QuestionFormValues } from "../../schema";
 import { formatQuestionFormPayload } from "../../utils/formatter";
-import { QuestionFormSchema } from "./QuestionForm.schema";
-import type { QuestionFormSchemaType } from "./QuestionForm.type";
 import QuestionItem from "./QuestionItem";
 
 const useSaveForm = ({ lessonId }: { lessonId: string }) => {
@@ -44,8 +42,8 @@ const useSaveForm = ({ lessonId }: { lessonId: string }) => {
 		_defaultValues,
 		_formValues,
 	}: {
-		_defaultValues?: QuestionFormSchemaType;
-		_formValues?: QuestionFormSchemaType;
+		_defaultValues?: QuestionFormValues;
+		_formValues?: QuestionFormValues;
 	}) => {
 		const promises: Promise<unknown>[] = [];
 		const {
@@ -119,14 +117,14 @@ const useSaveForm = ({ lessonId }: { lessonId: string }) => {
 
 const QuestionForm: React.FC<{
 	lessonId: string;
-	defaultValues?: QuestionFormSchemaType;
+	defaultValues?: QuestionFormValues;
 }> = ({ lessonId, defaultValues }) => {
 	const trpcUtils = trpc.useUtils();
 	const { config } = useSystemSetting();
 
 	const { saving, save } = useSaveForm({ lessonId });
 
-	const form = useForm<QuestionFormSchemaType>({
+	const form = useForm<QuestionFormValues>({
 		resolver: zodResolver(QuestionFormSchema),
 		defaultValues,
 	});
@@ -140,7 +138,7 @@ const QuestionForm: React.FC<{
 		name: "items",
 	});
 
-	const onSubmit = async (data: QuestionFormSchemaType) => {
+	const onSubmit = async (data: QuestionFormValues) => {
 		try {
 			await save({ _defaultValues: defaultValues, _formValues: data });
 

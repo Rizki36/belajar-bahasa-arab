@@ -9,6 +9,7 @@ type SubBabListProps = {
 
 const SubBabList = (props: SubBabListProps) => {
 	const { babNumber } = props;
+
 	const { subBabList, loadingSubBabList } = useSubBabList({ babNumber });
 	const { activeSubBab } = useActiveSubBab(subBabList);
 

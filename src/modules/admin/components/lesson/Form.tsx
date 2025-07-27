@@ -3,7 +3,6 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import type React from "react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { Button } from "@/common/components/ui/button";
 import {
@@ -24,43 +23,15 @@ import {
 	SelectValue,
 } from "@/common/components/ui/select";
 import { Textarea } from "@/common/components/ui/textarea";
-
-export const FormSchema = z.object({
-	number: z.coerce
-		.number({
-			message: "Nomor pelajaran harus berupa angka",
-		})
-		.min(0, {
-			message: "Nomor pelajaran minimal 0",
-		}),
-	title: z.string().optional(),
-	description: z.string().optional(),
-	contentType: z.enum(["quiz", "video", "pdf", "mixed"]).default("quiz"),
-	videoUrl: z
-		.string()
-		.url("URL video tidak valid")
-		.optional()
-		.refine(
-			(val) => {
-				// Skip validation if field is empty
-				if (!val) return true;
-				// Simple regex to validate YouTube URL
-				return /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)/.test(val);
-			},
-			{
-				message: "URL harus dari YouTube",
-			},
-		),
-	pdfUrl: z.string().url("URL PDF tidak valid").optional(),
-});
+import { LessonFormSchema, type LessonFormValues } from "../../schema";
 
 const LessonForm: React.FC<{
-	defaultValues?: z.infer<typeof FormSchema>;
-	onSubmit: (data: z.infer<typeof FormSchema>) => void;
+	defaultValues?: LessonFormValues;
+	onSubmit: (data: LessonFormValues) => void;
 	loading: boolean;
 }> = ({ defaultValues, onSubmit, loading }) => {
-	const form = useForm<z.infer<typeof FormSchema>>({
-		resolver: zodResolver(FormSchema),
+	const form = useForm<LessonFormValues>({
+		resolver: zodResolver(LessonFormSchema),
 		defaultValues: defaultValues || {
 			number: 1,
 			contentType: "quiz",

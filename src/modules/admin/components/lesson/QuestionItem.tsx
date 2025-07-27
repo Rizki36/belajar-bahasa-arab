@@ -21,8 +21,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/common/components/ui/tooltip";
-
-import type { QuestionFormSchemaType } from "./QuestionForm.type";
+import type { QuestionFormValues } from "../../schema";
 
 const QuestionItem = ({
 	questionIndex,
@@ -31,7 +30,7 @@ const QuestionItem = ({
 	score,
 }: {
 	questionIndex: number;
-	control: Control<QuestionFormSchemaType>;
+	control: Control<QuestionFormValues>;
 	remove: UseFieldArrayRemove;
 	score: number;
 }) => {

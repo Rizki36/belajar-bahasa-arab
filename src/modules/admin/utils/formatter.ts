@@ -1,4 +1,4 @@
-import type { QuestionFormSchemaType } from "../components/lesson/QuestionForm.type";
+import type { QuestionFormValues } from "../schema";
 import {
 	getNewQuestionsAndAnswers,
 	getRemovedQuestionsAndAnswers,
@@ -6,8 +6,8 @@ import {
 } from "./getter";
 
 export const formatQuestionFormPayload = (
-	defaultItems: QuestionFormSchemaType["items"],
-	currentItems: QuestionFormSchemaType["items"],
+	defaultItems: QuestionFormValues["items"],
+	currentItems: QuestionFormValues["items"],
 ) => {
 	const { removedQuestions, removedAnswers } = getRemovedQuestionsAndAnswers(
 		defaultItems,

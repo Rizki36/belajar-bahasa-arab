@@ -14,10 +14,7 @@ import {
 import { Button, buttonVariants } from "@/common/components/ui/button";
 import { trpc } from "@/utils/trpc";
 
-type DeleteBabButtonProps = {};
-
-const DeleteBabButton = (props: DeleteBabButtonProps) => {
-	const {} = props;
+const useDeleteBab = () => {
 	const router = useRouter();
 	const { mutateAsync: deleteBab } = trpc.admin.bab.delete.useMutation();
 	const trpcUtils = trpc.useUtils();
@@ -42,6 +39,15 @@ const DeleteBabButton = (props: DeleteBabButtonProps) => {
 		}
 		trpcUtils.admin.bab.invalidate();
 	};
+
+	return { handleDelete };
+};
+
+type DeleteBabButtonProps = {};
+
+const DeleteBabButton = (props: DeleteBabButtonProps) => {
+	const {} = props;
+	const { handleDelete } = useDeleteBab();
 
 	return (
 		<AlertDialog>

@@ -1,8 +1,8 @@
-import type { QuestionFormSchemaType } from "@/modules/admin/components/lesson/QuestionForm.type";
+import type { QuestionFormValues } from "../schema";
 
 const getRemovedQuestions = (
-	defaultItems: QuestionFormSchemaType["items"],
-	currentItems: QuestionFormSchemaType["items"],
+	defaultItems: QuestionFormValues["items"],
+	currentItems: QuestionFormValues["items"],
 ) => {
 	return defaultItems
 		.filter((item) => {
@@ -19,8 +19,8 @@ const getRemovedQuestions = (
 };
 
 const getRemovedAnswers = (
-	defaultAnswers: QuestionFormSchemaType["items"][number]["answers"],
-	currentAnswers: QuestionFormSchemaType["items"][number]["answers"],
+	defaultAnswers: QuestionFormValues["items"][number]["answers"],
+	currentAnswers: QuestionFormValues["items"][number]["answers"],
 ) => {
 	return defaultAnswers.filter((item) => {
 		return !currentAnswers.some((formValueItem) => {
@@ -30,8 +30,8 @@ const getRemovedAnswers = (
 };
 
 export const getRemovedQuestionsAndAnswers = (
-	defaultItems: QuestionFormSchemaType["items"],
-	currentItems: QuestionFormSchemaType["items"],
+	defaultItems: QuestionFormValues["items"],
+	currentItems: QuestionFormValues["items"],
 ) => {
 	const removedQuestions = getRemovedQuestions(defaultItems, currentItems);
 
@@ -46,8 +46,8 @@ export const getRemovedQuestionsAndAnswers = (
 };
 
 const getNewQuestions = (
-	defaultItems: QuestionFormSchemaType["items"],
-	currentItems: QuestionFormSchemaType["items"],
+	defaultItems: QuestionFormValues["items"],
+	currentItems: QuestionFormValues["items"],
 ) => {
 	return currentItems.filter((formValueItem) => {
 		return !defaultItems.some((item) => {
@@ -57,8 +57,8 @@ const getNewQuestions = (
 };
 
 const getNewAnswers = (
-	defaultAnswers: QuestionFormSchemaType["items"][number]["answers"],
-	currentAnswers: QuestionFormSchemaType["items"][number]["answers"],
+	defaultAnswers: QuestionFormValues["items"][number]["answers"],
+	currentAnswers: QuestionFormValues["items"][number]["answers"],
 ) => {
 	return currentAnswers.filter((formValueItem) => {
 		return !defaultAnswers.some((item) => {
@@ -68,8 +68,8 @@ const getNewAnswers = (
 };
 
 export const getNewQuestionsAndAnswers = (
-	defaultItems: QuestionFormSchemaType["items"],
-	currentItems: QuestionFormSchemaType["items"],
+	defaultItems: QuestionFormValues["items"],
+	currentItems: QuestionFormValues["items"],
 ) => {
 	const newQuestions = getNewQuestions(defaultItems, currentItems).map(
 		(item) => {
@@ -99,8 +99,8 @@ export const getNewQuestionsAndAnswers = (
 };
 
 const getUpdatedItems = (
-	defaultItems: QuestionFormSchemaType["items"],
-	currentItems: QuestionFormSchemaType["items"],
+	defaultItems: QuestionFormValues["items"],
+	currentItems: QuestionFormValues["items"],
 ) => {
 	return currentItems.filter((item) => {
 		const defaultItem = defaultItems.find(
@@ -120,8 +120,8 @@ const getUpdatedItems = (
 };
 
 const getUpdatedAnswers = (
-	defaultAnswers: QuestionFormSchemaType["items"][number]["answers"],
-	currentAnswers: QuestionFormSchemaType["items"][number]["answers"],
+	defaultAnswers: QuestionFormValues["items"][number]["answers"],
+	currentAnswers: QuestionFormValues["items"][number]["answers"],
 ) => {
 	return currentAnswers.filter((item) => {
 		const defaultItem = defaultAnswers.find(
@@ -146,8 +146,8 @@ const getUpdatedAnswers = (
 };
 
 export const getUpdatedQuestionsAndAnswers = (
-	defaultItems: QuestionFormSchemaType["items"],
-	currentItems: QuestionFormSchemaType["items"],
+	defaultItems: QuestionFormValues["items"],
+	currentItems: QuestionFormValues["items"],
 ) => {
 	const updatedQuestions = getUpdatedItems(defaultItems, currentItems).map(
 		(item) => {

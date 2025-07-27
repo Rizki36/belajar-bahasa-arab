@@ -1,170 +1,52 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import { HeartFilledIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
-import { type FC, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
 import { Button } from "@/common/components/ui/button";
 import { Form } from "@/common/components/ui/form";
 import { Progress } from "@/common/components/ui/progress";
 import { Spinner } from "@/common/components/ui/spinner";
-import useSystemSetting from "@/common/hooks/useSystemSetting";
 import ShareSection from "@/modules/client/components/belajar/ShareSection";
 import EndModal from "@/modules/client/components/lesson/EndModal";
-import useStudent from "@/modules/client/hooks/useStudent";
-import { type RouterOutput, trpc } from "@/utils/trpc";
-import { QuizLessonFormSchema, type QuizLessonFormValues } from "../../schema";
+import useQuizLesson from "@/modules/client/hooks/useQuizLesson";
+import type { RouterOutput } from "@/utils/trpc";
 import AnswerButton from "./AnswerButton";
 import AnswerOption from "./AnswerOption";
 
 type LessonData = RouterOutput["student"]["lesson"]["data"];
 
-const maxHeartCount = 3;
-
-const QuizLesson: FC<{
+type QuizLessonProps = {
 	lesson: LessonData["lesson"] | undefined;
 	bab: LessonData["bab"] | undefined;
 	subBab: LessonData["subBab"] | undefined;
-}> = ({ bab, subBab, lesson }) => {
-	const [score, setScore] = useState(0);
-	const [star, setStar] = useState(0);
-	const [isEnd, setIsEnd] = useState(false);
-	const [questionIndex, setQuestionIndex] = useState(0);
-	const [heartCount, setHeartCount] = useState(maxHeartCount);
-	const [myAnswers, setMyAnswers] = useState<
-		{
-			questionId: string;
-			answerId: string;
-		}[]
-	>([]);
+};
 
-	const form = useForm<QuizLessonFormValues>({
-		resolver: zodResolver(QuizLessonFormSchema),
-	});
+const QuizLesson = (props: QuizLessonProps) => {
+	const { lesson, bab, subBab } = props;
 
-	const trpcUtils = trpc.useUtils();
+	const {
+		score,
+		star,
+		isEnd,
+		questionIndex,
+		heartCount,
+		questions,
+		questionText,
+		answers,
+		isLoading,
+		isSubmitting,
+		form,
+		onSubmit,
+		handleContinue,
+		handleModalOpenChange,
+	} = useQuizLesson({ lesson, bab, subBab });
 
-	const { data: questionList, isLoading: loadingQuestions } =
-		trpc.student.lesson.listQuestion.useQuery({
-			lessonId: lesson?.id!,
-		});
-	const { mutate: checkAnswer, status: checkAnswerStatus } =
-		trpc.student.lesson.checkAnswer.useMutation();
-	const { mutate: submit, status: submitStatus } =
-		trpc.student.lesson.submitQuiz.useMutation();
-	const { config, loading: loadingConfig } = useSystemSetting();
-
-	const { student } = useStudent();
-
-	const questions = useMemo(() => {
-		if (!questionList?.questions?.length || loadingConfig) return [];
-
-		let result = [...questionList.questions];
-
-		result = result.map((question) => {
-			return {
-				...question,
-				answer: question.answer.sort((a, b) => {
-					return config.randomizeAnswer
-						? Math.random() - 0.5
-						: a.number - b.number;
-				}),
-			};
-		});
-
-		result = result.sort((a, b) => {
-			return config?.randomizeQuestion
-				? Math.random() - 0.5
-				: a.number - b.number;
-		});
-
-		return result;
-	}, [questionList, config, loadingConfig]);
-
-	if (loadingQuestions || loadingConfig)
+	if (isLoading)
 		return (
 			<div className="h-screen flex justify-center items-center">
 				<Spinner size="large" />
 			</div>
 		);
 
-	const question = questions[questionIndex];
-	const questionText = question?.question ?? "";
-	const answers = question?.answer ?? [];
-
 	if (!bab || !subBab || !lesson) return null;
-
-	const endLesson = (
-		heart: number,
-		answers: {
-			questionId: string;
-			answerId: string;
-		}[],
-	) => {
-		submit(
-			{
-				studentId: student?.id ?? "",
-				lessonId: lesson.id,
-				heartCount: heart,
-				answers,
-			},
-			{
-				onSuccess: (data) => {
-					setIsEnd(true);
-					setScore(data.score);
-					setStar(data.star);
-					trpcUtils.student.learn.subBabList.invalidate();
-					trpcUtils.student.listBab.listBab.invalidate();
-				},
-				onError: (error) => {
-					console.error(error);
-				},
-			},
-		);
-	};
-
-	const onSubmit = (data: QuizLessonFormValues) => {
-		checkAnswer(
-			{
-				questionId: question.id,
-				answerId: data.answer,
-			},
-			{
-				onSuccess: (result) => {
-					const isLastQuestion = questionIndex === questions.length - 1;
-
-					const newMyAnswers = [
-						...myAnswers,
-						{
-							questionId: question.id,
-							answerId: data.answer,
-						},
-					];
-
-					const newHeartCount = result.isCorrect ? heartCount : heartCount - 1;
-					const isHeartCountZero = newHeartCount <= 0;
-
-					setMyAnswers(newMyAnswers);
-
-					if (!result.isCorrect) {
-						form.setValue("isIncorrect", true);
-						setHeartCount((prev) => prev - 1);
-					}
-
-					if (isLastQuestion || isHeartCountZero) {
-						return endLesson(newHeartCount, newMyAnswers);
-					}
-
-					if (result.isCorrect) {
-						setQuestionIndex((prev) => prev + 1);
-						form.reset();
-					}
-				},
-				onError: (error) => {
-					console.error(error);
-				},
-			},
-		);
-	};
 
 	return (
 		<>
@@ -172,9 +54,7 @@ const QuizLesson: FC<{
 				score={score}
 				star={star}
 				open={isEnd}
-				onOpenChange={(open) => {
-					setIsEnd(open);
-				}}
+				onOpenChange={handleModalOpenChange}
 			/>
 			<div className="bg-primary min-h-screen px-4 md:px-11">
 				<div className="pt-6 sticky top-0 flex items-center justify-between md:mb-2">
@@ -224,10 +104,7 @@ const QuizLesson: FC<{
 										key={answer.id}
 										answer={answer}
 										form={form}
-										loading={
-											checkAnswerStatus === "pending" ||
-											submitStatus === "pending"
-										}
+										loading={isSubmitting}
 									/>
 								))}
 							</div>
@@ -235,14 +112,8 @@ const QuizLesson: FC<{
 							<div>
 								<AnswerButton
 									form={form}
-									onContinue={() => {
-										form.reset();
-										setQuestionIndex((prev) => prev + 1);
-									}}
-									loading={
-										checkAnswerStatus === "pending" ||
-										submitStatus === "pending"
-									}
+									onContinue={handleContinue}
+									loading={isSubmitting}
 								/>
 							</div>
 						</form>

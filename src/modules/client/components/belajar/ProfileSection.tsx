@@ -8,6 +8,7 @@ type ProfileSectionProps = {};
 
 const ProfileSection = (props: ProfileSectionProps) => {
 	const {} = props;
+
 	const { data, status } = useSession();
 	const { student, loadingStudent } = useStudent();
 

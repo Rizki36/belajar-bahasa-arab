@@ -1,5 +1,4 @@
 import { toast } from "sonner";
-import type { TypeOf } from "zod";
 
 import {
 	Dialog,
@@ -9,8 +8,8 @@ import {
 	DialogTitle,
 } from "@/common/components/ui/dialog";
 import { trpc } from "@/utils/trpc";
-
-import LessonForm, { type FormSchema } from "./Form";
+import type { LessonFormValues } from "../../schema";
+import LessonForm from "./Form";
 
 type LessonFormDialogProps = {
 	mode: "create" | "update";
@@ -38,7 +37,7 @@ const LessonFormDialog = (props: LessonFormDialogProps) => {
 
 	const loading = createStatus === "pending" || updateStatus === "pending";
 
-	const handleCreate = async (data: TypeOf<typeof FormSchema>) => {
+	const handleCreate = async (data: LessonFormValues) => {
 		try {
 			if (!bab?.id) throw new Error("Bab ID is missing");
 			if (!subBab?.id) throw new Error("Sub Bab ID is missing");
@@ -57,7 +56,7 @@ const LessonFormDialog = (props: LessonFormDialogProps) => {
 		}
 	};
 
-	const handleUpdate = async (data: TypeOf<typeof FormSchema>) => {
+	const handleUpdate = async (data: LessonFormValues) => {
 		try {
 			if (!lesson?.id) throw new Error("Sub Bab ID is missing");
 
@@ -74,7 +73,7 @@ const LessonFormDialog = (props: LessonFormDialogProps) => {
 		}
 	};
 
-	const handleSubmit = async (data: TypeOf<typeof FormSchema>) => {
+	const handleSubmit = async (data: LessonFormValues) => {
 		if (mode === "create") {
 			await handleCreate(data);
 		}
