@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ExternalLinkIcon } from "@radix-ui/react-icons";
 import Head from "next/head";
 import type React from "react";
 import { useForm } from "react-hook-form";
@@ -27,6 +28,8 @@ const FormSchema = z.object({
 	randomizeQuestion: z.boolean().default(false),
 	randomizeAnswer: z.boolean().default(false),
 	defaultScore: z.coerce.number().default(15),
+	adminManualBookUrl: z.string().default(""),
+	studentManualBookUrl: z.string().default(""),
 });
 
 type SettingFormValues = z.infer<typeof FormSchema>;
@@ -58,6 +61,8 @@ const SettingPage: NextPageWithLayout = () => {
 						randomizeQuestion: config.randomizeQuestion,
 						randomizeAnswer: config.randomizeAnswer,
 						defaultScore: config.defaultScore,
+						adminManualBookUrl: config.adminManualBookUrl,
+						studentManualBookUrl: config.studentManualBookUrl,
 					}}
 				/>
 			</div>
@@ -86,6 +91,14 @@ const SettingForm: React.FC<{
 					},
 					{ name: "randomizeAnswer", value: data.randomizeAnswer.toString() },
 					{ name: "defaultScore", value: data.defaultScore.toString() },
+					{
+						name: "adminManualBookUrl",
+						value: data.adminManualBookUrl.toString(),
+					},
+					{
+						name: "studentManualBookUrl",
+						value: data.studentManualBookUrl.toString(),
+					},
 				],
 			});
 			trpcUtils.admin.setting.invalidate();
@@ -158,6 +171,70 @@ const SettingForm: React.FC<{
 							<FormDescription>
 								Ini adalah nilai default yang akan diberikan kepada siswa jika
 								berhasil menjawab soal
+							</FormDescription>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="adminManualBookUrl"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>
+								Admin Manual Book URL{" "}
+								{field.value && (
+									<a
+										href={field.value}
+										target="_blank"
+										rel="noreferrer"
+										className="text-blue-500 hover:underline"
+									>
+										<ExternalLinkIcon className="inline-block w-4 h-4" />
+									</a>
+								)}
+							</FormLabel>
+							<FormControl>
+								<Input
+									type="text"
+									placeholder="Isi dengan URL buku manual admin"
+									{...field}
+								/>
+							</FormControl>
+							<FormDescription>
+								URL ini akan digunakan untuk mengakses buku manual admin.
+							</FormDescription>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="studentManualBookUrl"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>
+								Student Manual Book URL{" "}
+								{field.value && (
+									<a
+										href={field.value}
+										target="_blank"
+										rel="noreferrer"
+										className="text-blue-500 hover:underline"
+									>
+										<ExternalLinkIcon className="inline-block w-4 h-4" />
+									</a>
+								)}
+							</FormLabel>
+							<FormControl>
+								<Input
+									type="text"
+									placeholder="Isi dengan URL buku manual siswa"
+									{...field}
+								/>
+							</FormControl>
+							<FormDescription>
+								URL ini akan digunakan untuk mengakses buku manual siswa.
 							</FormDescription>
 							<FormMessage />
 						</FormItem>

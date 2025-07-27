@@ -21,6 +21,10 @@ const menuItems = [
 		routes: ["/admin/siswa"],
 	},
 	{
+		title: "Manual Book",
+		url: "/admin/manual-book",
+	},
+	{
 		title: "Pengaturan",
 		url: "/admin/setting",
 	},
