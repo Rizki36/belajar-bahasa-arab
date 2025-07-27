@@ -19,17 +19,17 @@ export const menuItems = [
 		routes: [],
 	},
 	{
-		id: "setting",
-		name: "Pengaturan",
-		icon: <SettingIcon className="size-7" />,
-		url: "/pengaturan",
-		routes: [],
-	},
-	{
 		id: "manual",
 		name: "Buku Manual",
 		icon: <Book className="size-7" />,
 		url: "/manual-book",
+		routes: [],
+	},
+	{
+		id: "setting",
+		name: "Pengaturan",
+		icon: <SettingIcon className="size-7" />,
+		url: "/pengaturan",
 		routes: [],
 	},
 ];
