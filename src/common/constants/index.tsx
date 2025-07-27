@@ -1,3 +1,4 @@
+import Book from "../icons/Book";
 import HomeIcon from "../icons/Home";
 import LeaderBoardIcon from "../icons/Leaderboard";
 import SettingIcon from "../icons/Setting";
@@ -15,6 +16,13 @@ export const menuItems = [
 		name: "Papan Peringkat",
 		icon: <LeaderBoardIcon className="size-7" />,
 		url: "/papan-peringkat",
+		routes: [],
+	},
+	{
+		id: "manual",
+		name: "Buku Manual",
+		icon: <Book className="size-7" />,
+		url: "/manual-book",
 		routes: [],
 	},
 	{

@@ -6,12 +6,16 @@ type Config = {
 	randomizeQuestion: boolean;
 	randomizeAnswer: boolean;
 	defaultScore: number;
+	adminManualBookUrl: string;
+	studentManualBookUrl: string;
 };
 
 export const defaultConfig: Config = {
 	randomizeQuestion: false,
 	randomizeAnswer: false,
 	defaultScore: 10,
+	adminManualBookUrl: "",
+	studentManualBookUrl: "",
 };
 
 export const generateConfig = (
@@ -31,6 +35,12 @@ export const generateConfig = (
 			config.find((item) => item.name === "defaultScore")?.value ??
 				defaultConfig.defaultScore,
 		),
+		adminManualBookUrl:
+			config.find((item) => item.name === "adminManualBookUrl")?.value ??
+			defaultConfig.adminManualBookUrl,
+		studentManualBookUrl:
+			config.find((item) => item.name === "studentManualBookUrl")?.value ??
+			defaultConfig.studentManualBookUrl,
 	};
 };
 
