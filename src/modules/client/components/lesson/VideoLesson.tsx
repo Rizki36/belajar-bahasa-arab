@@ -1,6 +1,6 @@
 import { ReloadIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
-import { type FC, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import Button3D from "@/common/components/ui/3d-button";
 import { Button } from "@/common/components/ui/button";
@@ -16,13 +16,9 @@ type VideoLessonProps = {
 	babNumber: number;
 };
 
-const VideoLesson: FC<VideoLessonProps> = ({
-	videoUrl,
-	title,
-	description,
-	lessonId,
-	babNumber,
-}) => {
+const VideoLesson = (props: VideoLessonProps) => {
+	const { videoUrl, title, description, lessonId, babNumber } = props;
+
 	const [completed, setCompleted] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const { student } = useStudent();

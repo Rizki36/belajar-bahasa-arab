@@ -1,6 +1,6 @@
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/router";
-import { type FC, useEffect } from "react";
+import { useEffect } from "react";
 
 import { Button } from "@/common/components/ui/button";
 import { Dialog, DialogContent } from "@/common/components/ui/dialog";
@@ -9,12 +9,16 @@ import { trpc } from "@/utils/trpc";
 import useStudent from "../../hooks/useStudent";
 import StarIcon from "../../icons/Star";
 
-const EndModal: FC<{
+type EndModalProps = {
 	open: boolean;
 	onOpenChange: (open: boolean) => void;
 	score: number;
 	star: number;
-}> = ({ open, score, star, onOpenChange }) => {
+};
+
+const EndModal = (props: EndModalProps) => {
+	const { open, score, star, onOpenChange } = props;
+
 	const router = useRouter();
 	const { student } = useStudent();
 	const { mutate: updateScore, isPending: updateScorePending } =

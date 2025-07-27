@@ -24,6 +24,7 @@ const ProgressItem = (props: ProgressItemProps) => {
 		contentType = "quiz",
 		isCompleted,
 	} = props;
+
 	const router = useRouter();
 
 	const ContentTypeIcon = () => {

@@ -2,7 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import type React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -31,11 +30,15 @@ export const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>;
 
-const SettingForm: React.FC<{
+type SettingFormProps = {
 	defaultValues?: FormValues;
 	onSubmit: (data: FormValues) => void;
 	loading: boolean;
-}> = ({ onSubmit, defaultValues, loading }) => {
+};
+
+const SettingForm = (props: SettingFormProps) => {
+	const { onSubmit, defaultValues, loading } = props;
+
 	const { data } = useSession();
 
 	const form = useForm<FormValues>({

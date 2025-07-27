@@ -1,6 +1,5 @@
 import { HeartFilledIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
-import type { FC } from "react";
 import { Button } from "@/common/components/ui/button";
 import { Form } from "@/common/components/ui/form";
 import { Progress } from "@/common/components/ui/progress";
@@ -20,7 +19,7 @@ type QuizLessonProps = {
 	subBab: LessonData["subBab"] | undefined;
 };
 
-const QuizLesson: FC<QuizLessonProps> = (props) => {
+const QuizLesson = (props: QuizLessonProps) => {
 	const { lesson, bab, subBab } = props;
 
 	const {

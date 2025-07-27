@@ -9,6 +9,7 @@ type StatSectionProps = {
 
 const StatSection = (props: StatSectionProps) => {
 	const { babNumber } = props;
+
 	const { bab } = useBab({ babNumber });
 	const { myLesson, totalLesson, progress } = useProgress({ babId: bab?.id! });
 
