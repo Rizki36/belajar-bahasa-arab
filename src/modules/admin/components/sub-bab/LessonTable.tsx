@@ -1,3 +1,4 @@
+import { ContentType } from "@prisma/client";
 import {
 	createColumnHelper,
 	flexRender,
@@ -9,7 +10,6 @@ import {
 } from "@tanstack/react-table";
 import { useRouter } from "next/router";
 import React from "react";
-
 import { Button } from "@/common/components/ui/button";
 import {
 	Table,
@@ -19,6 +19,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/common/components/ui/table";
+import { CONTENT_TYPE_LABELS } from "@/common/constants";
 import LessonFormDialog from "@/modules/admin/components/lesson/FormDialog";
 import { trpc } from "@/utils/trpc";
 
@@ -26,6 +27,15 @@ export type Data = {
 	id: string;
 	number: number;
 	totalLesson: number;
+	contentType: ContentType;
+};
+
+const getDescription = (data: Data) => {
+	if (data.contentType === ContentType.quiz) {
+		return `${data.totalLesson} soal`;
+	}
+
+	return "-";
 };
 
 const columnHelper = createColumnHelper<Data>();
@@ -36,9 +46,20 @@ export const columns = [
 		cell: (info) => <div className="text-center">{info.getValue()}</div>,
 		size: 30,
 	}),
-	columnHelper.accessor("totalLesson", {
-		header: () => <div className="text-center">Total Soal</div>,
-		cell: (info) => <div className="text-center">{info.getValue()}</div>,
+	columnHelper.accessor("contentType", {
+		header: () => <div className="text-center">Tipe</div>,
+		cell: (info) => (
+			<div className="text-center">
+				{CONTENT_TYPE_LABELS[info.getValue()] || info.getValue()}
+			</div>
+		),
+	}),
+	columnHelper.display({
+		id: "description",
+		header: () => <div className="text-center">Keterangan</div>,
+		cell: (info) => (
+			<div className="text-center">{getDescription(info.row.original)}</div>
+		),
 	}),
 ];
 
@@ -61,6 +82,7 @@ const LessonTable: React.FC<{
 			id: item.id,
 			number: item.number,
 			totalLesson: item._count?.question || 0,
+			contentType: item.contentType,
 		}));
 	}, [lessonData?.items]);
 
