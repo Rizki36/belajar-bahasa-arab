@@ -22,6 +22,7 @@ type LessonFormDialogProps = {
 		title: string | null;
 		description: string | null;
 		videoUrl: string | null;
+		pdfUrl: string | null;
 		contentType: "quiz" | "video" | "pdf" | "mixed";
 	};
 	setOpen: (open: boolean) => void;
@@ -103,6 +104,7 @@ const LessonFormDialog = (props: LessonFormDialogProps) => {
 										description: lesson.description || undefined,
 										title: lesson.title || undefined,
 										videoUrl: lesson.videoUrl || undefined,
+										pdfUrl: lesson.pdfUrl || undefined,
 									}
 								: undefined
 						}
