@@ -1,3 +1,4 @@
+import { ContentType } from "@prisma/client";
 import Book from "../icons/Book";
 import HomeIcon from "../icons/Home";
 import LeaderBoardIcon from "../icons/Leaderboard";
@@ -33,3 +34,10 @@ export const menuItems = [
 		routes: [],
 	},
 ];
+
+export const CONTENT_TYPE_LABELS: Record<ContentType, string> = {
+	[ContentType.pdf]: "PDF",
+	[ContentType.video]: "Video",
+	[ContentType.quiz]: "Quiz",
+	[ContentType.mixed]: "Campuran",
+};
