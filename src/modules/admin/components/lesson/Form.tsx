@@ -98,7 +98,6 @@ const LessonForm: React.FC<{
 									<SelectItem value="quiz">Kuis</SelectItem>
 									<SelectItem value="video">Video</SelectItem>
 									<SelectItem value="pdf">PDF</SelectItem>
-									<SelectItem value="mixed">Campuran</SelectItem>
 								</SelectContent>
 							</Select>
 							<FormDescription>
