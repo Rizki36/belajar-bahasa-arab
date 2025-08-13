@@ -1,9 +1,10 @@
+import { ExitIcon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut } from "next-auth/react";
-
+import Button3D from "@/common/components/ui/3d-button";
 import { Button } from "@/common/components/ui/button";
-import { isActiveLink } from "@/common/utils";
+import { cn, isActiveLink } from "@/common/utils";
 
 const menuItems = [
 	{
@@ -30,47 +31,97 @@ const menuItems = [
 	},
 ];
 
-type SidebarDesktopProps = {};
+type SidebarDesktopProps = {
+	isOpen?: boolean;
+	onToggle?: () => void;
+};
 
 export const SidebarDesktop = (props: SidebarDesktopProps) => {
-	const {} = props;
+	const { isOpen = true, onToggle } = props;
 	const router = useRouter();
 
 	return (
-		<div className="w-[250px] flex flex-col bg-white z-50 fixed h-screen left-0 top-0 bottom-0 overflow-x-hidden overflow-y-auto border-r">
-			<div className="flex justify-center mt-6 mb-8">
-				<Link
-					href="/admin"
-					className="mx-2 text-primary leading-none font-semibold text-xl text-center"
+		<>
+			{/* Toggle Button for Mobile */}
+			<Button
+				className="fixed top-4 left-4 z-[60] md:hidden bg-primary text-white hover:bg-primary/90"
+				size="sm"
+				onClick={onToggle}
+			>
+				<HamburgerMenuIcon />
+			</Button>
+
+			{/* Overlay for Mobile */}
+			{isOpen && (
+				<div
+					className="fixed inset-0 bg-black/50 z-40 md:hidden"
+					onClick={onToggle}
+				/>
+			)}
+
+			{/* Sidebar */}
+			<div
+				className={cn(
+					// Base styles
+					"fixed left-0 top-0 h-full z-50 bg-primary flex flex-col transition-transform duration-300 ease-in-out",
+					// Desktop styles
+					"md:translate-x-0 md:w-[250px] md:border-r-[8px] md:border-r-primary-dark1",
+					// Mobile styles
+					"w-[280px] shadow-lg",
+					// Conditional transform for mobile
+					isOpen ? "translate-x-0" : "-translate-x-full",
+					// Always show on desktop
+					"md:flex",
+				)}
+			>
+				<div
+					className={cn(
+						"flex items-center text-center justify-center my-5 text-white font-bold",
+						"text-sm md:text-lg lg:text-xl",
+					)}
 				>
-					<div className="hidden lg:block">الصَّرْفُ المُيَسَّرُ</div>
-					<div className=" lg:text-2xl leading-none">
-						Mudah Belajar <br /> Ilmu Shorof
-					</div>
-				</Link>
-			</div>
-
-			<div className="flex flex-col flex-1">
-				{menuItems.map((item) => (
-					<Link key={item.url} href={item.url} className="mx-2">
-						<Button
-							className="w-full justify-between"
-							variant={
-								isActiveLink(router.pathname, item.url, item.routes)
-									? "default"
-									: "ghost"
-							}
-						>
-							{item.title}
-						</Button>
+					<Link href="/admin">
+						<div className="hidden md:block">الصَّرْفُ المُيَسَّرُ</div>
+						<div className="text-lg md:text-xl lg:text-2xl leading-none">
+							Mudah Belajar <br /> Ilmu Shorof
+						</div>
 					</Link>
-				))}
-			</div>
-
-			<div>
-				<Button
-					className="w-full"
-					variant="ghost"
+				</div>
+				<div className="flex-1 flex flex-col mt-6 space-y-1 px-2">
+					{menuItems.map((item) => {
+						const isActive = isActiveLink(
+							router.pathname,
+							item.url,
+							item.routes,
+						);
+						return (
+							<Button
+								key={item.url}
+								variant={"ghost"}
+								size="lg"
+								className={cn(
+									"hover:!text-primary text-white w-full justify-start gap-3 px-4",
+									{
+										"bg-white !text-primary": isActive,
+									},
+								)}
+								onClick={() => {
+									if (isActive) return;
+									router.push(item.url);
+									// Close sidebar on mobile after navigation
+									if (window.innerWidth < 768 && onToggle) {
+										onToggle();
+									}
+								}}
+							>
+								<span>{item.title}</span>
+							</Button>
+						);
+					})}
+				</div>
+				<Button3D
+					variant="white"
+					className="mb-3 mx-2"
 					onClick={async () => {
 						await signOut({
 							callbackUrl: "/",
@@ -78,9 +129,12 @@ export const SidebarDesktop = (props: SidebarDesktopProps) => {
 						});
 					}}
 				>
-					Keluar
-				</Button>
+					<span className="hidden md:inline-block">Keluar</span>
+					<span className="inline-block md:hidden">
+						<ExitIcon />
+					</span>
+				</Button3D>
 			</div>
-		</div>
+		</>
 	);
 };
