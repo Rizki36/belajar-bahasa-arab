@@ -1,8 +1,7 @@
 import { ExternalLinkIcon } from "@radix-ui/react-icons";
 import Head from "next/head";
-import { useState } from "react";
 import { toast } from "sonner";
-
+import GoogleDrivePdfViewer from "@/common/components/GoogleDrivePdfViewer";
 import { Button } from "@/common/components/ui/button";
 import { Spinner } from "@/common/components/ui/spinner";
 import useSystemSetting from "@/common/hooks/useSystemSetting";
@@ -11,7 +10,6 @@ import type { NextPageWithLayout } from "@/pages/_app";
 
 const StudentManualBookPage: NextPageWithLayout = () => {
 	const { config, loading } = useSystemSetting();
-	const [isIframeLoading, setIsIframeLoading] = useState(true);
 
 	const openInNewTab = () => {
 		if (!config.studentManualBookUrl) {
@@ -68,18 +66,12 @@ const StudentManualBookPage: NextPageWithLayout = () => {
 					</Button>
 				</div>
 
-				<div className="relative w-full h-[calc(100vh-160px)]">
-					{isIframeLoading && (
-						<div className="absolute inset-0 flex items-center justify-center bg-white/80 z-10">
-							<Spinner size="large" />
-						</div>
-					)}
-					<iframe
-						src={config.studentManualBookUrl}
-						className="w-full h-full border rounded-lg bg-white"
-						onLoad={() => setIsIframeLoading(false)}
+				<div className="w-full h-[calc(100vh-160px)]">
+					<GoogleDrivePdfViewer
+						pdfUrl={config.studentManualBookUrl}
+						className="w-full h-full"
 						title="Student Manual Book"
-						allow="fullscreen"
+						allowedFeatures="fullscreen"
 					/>
 				</div>
 			</div>

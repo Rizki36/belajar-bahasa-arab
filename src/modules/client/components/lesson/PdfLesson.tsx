@@ -2,6 +2,7 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import GoogleDrivePdfViewer from "@/common/components/GoogleDrivePdfViewer";
 import Button3D from "@/common/components/ui/3d-button";
 import { Button } from "@/common/components/ui/button";
 import { Spinner } from "@/common/components/ui/spinner";
@@ -21,28 +22,10 @@ const PdfLesson = (props: PdfLessonProps) => {
 	const { pdfUrl, title, description, lessonId, babNumber } = props;
 
 	const [loading, setLoading] = useState(false);
-	const [iframeLoading, setIframeLoading] = useState(true);
 	const [completed, setCompleted] = useState(false);
 	const { student } = useStudent();
 	const trpcUtils = trpc.useUtils();
 	const [isMounted, setIsMounted] = useState(false);
-
-	// Convert the Google Drive URL to an embeddable format if needed
-	const getEmbedUrl = (url: string) => {
-		// Check if it's a Google Drive link and convert it to embed format
-		if (url.includes("drive.google.com/file/d/")) {
-			// Extract the file ID
-			const fileIdMatch = url.match(/\/file\/d\/([^/]+)/);
-			if (fileIdMatch && fileIdMatch[1]) {
-				return `https://drive.google.com/file/d/${fileIdMatch[1]}/preview`;
-			}
-		}
-
-		// If it's already in preview format or not a Google Drive link
-		return url;
-	};
-
-	const embedUrl = getEmbedUrl(pdfUrl);
 
 	useEffect(() => {
 		setIsMounted(true);
@@ -95,28 +78,19 @@ const PdfLesson = (props: PdfLessonProps) => {
 							<h2 className="text-2xl font-bold mb-4 text-center">{title}</h2>
 						)}
 
-						<div className="w-full border rounded-lg p-4 bg-white shadow">
-							{isMounted ? (
-								<div className="relative">
-									{iframeLoading && (
-										<div className="absolute inset-0 flex justify-center items-center">
-											<Spinner size="large" />
-										</div>
-									)}
-									<iframe
-										src={embedUrl}
-										className="w-full min-h-[500px] md:min-h-[650px]"
-										onLoad={() => setIframeLoading(false)}
-										allow="autoplay; encrypted-media;"
-										style={{ border: 0 }}
-									></iframe>
-								</div>
-							) : (
+						{isMounted ? (
+							<GoogleDrivePdfViewer
+								pdfUrl={pdfUrl}
+								className="w-full min-h-[500px] md:min-h-[650px]"
+								title="PDF Lesson Preview"
+							/>
+						) : (
+							<div className="w-full border rounded-lg p-4 bg-white shadow">
 								<div className="flex justify-center p-8 min-h-[400px] items-center">
 									<Spinner size="large" />
 								</div>
-							)}
-						</div>
+							</div>
+						)}
 
 						{description && (
 							<div className="text-lg mt-4 text-center">{description}</div>

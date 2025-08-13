@@ -3,7 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-
+import GoogleDrivePdfViewer from "@/common/components/GoogleDrivePdfViewer";
 import { Button } from "@/common/components/ui/button";
 import { Card } from "@/common/components/ui/card";
 import { Spinner } from "@/common/components/ui/spinner";
@@ -146,8 +146,10 @@ const LessonDetailPage: NextPageWithLayout = () => {
 							{lesson.contentType === "pdf" || lesson.contentType === "mixed"
 								? lesson.pdfUrl && (
 										<div>
-											<div className="text-sm font-medium mb-1">URL PDF</div>
-											<div className="text-base break-all">
+											<div className="text-sm font-medium mb-1">
+												PDF Preview
+											</div>
+											<div className="text-base break-all mb-2">
 												<a
 													href={lesson.pdfUrl}
 													target="_blank"
@@ -157,6 +159,10 @@ const LessonDetailPage: NextPageWithLayout = () => {
 													{lesson.pdfUrl}
 												</a>
 											</div>
+											<GoogleDrivePdfViewer
+												pdfUrl={lesson.pdfUrl}
+												title="PDF Preview"
+											/>
 										</div>
 									)
 								: null}
