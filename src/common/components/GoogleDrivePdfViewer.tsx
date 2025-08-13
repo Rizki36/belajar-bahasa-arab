@@ -34,7 +34,7 @@ const GoogleDrivePdfViewer: React.FC<GoogleDrivePdfViewerProps> = ({
 	const iframeClassName = minHeight ? `w-full ${minHeight}` : className;
 
 	return (
-		<div className="w-full border rounded-lg p-4 bg-white shadow relative">
+		<div className="w-full h-full border rounded-lg p-4 bg-white shadow relative">
 			{isLoading && (
 				<div className="absolute inset-0 flex justify-center items-center z-10">
 					<Spinner size="large" />
