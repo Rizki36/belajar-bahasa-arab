@@ -146,8 +146,8 @@ const LessonDetailPage: NextPageWithLayout = () => {
 							{lesson.contentType === "pdf" || lesson.contentType === "mixed"
 								? lesson.pdfUrl && (
 										<div>
-											<div className="text-sm font-medium mb-1">URL PDF</div>
-											<div className="text-base break-all">
+											<div className="text-sm font-medium mb-1">PDF Preview</div>
+											<div className="text-base break-all mb-2">
 												<a
 													href={lesson.pdfUrl}
 													target="_blank"
@@ -156,6 +156,18 @@ const LessonDetailPage: NextPageWithLayout = () => {
 												>
 													{lesson.pdfUrl}
 												</a>
+											</div>
+											<div className="w-full border rounded-lg p-4 bg-white shadow">
+												<iframe
+													src={lesson.pdfUrl.includes("drive.google.com/file/d/") 
+														? lesson.pdfUrl.replace(/\/file\/d\/([^/]+).*/, "/file/d/$1/preview")
+														: lesson.pdfUrl
+													}
+													className="w-full min-h-[400px] md:min-h-[500px]"
+													allow="autoplay; encrypted-media;"
+													style={{ border: 0 }}
+													title="PDF Preview"
+												></iframe>
 											</div>
 										</div>
 									)
