@@ -110,7 +110,7 @@ const SubBabListTable = (props: SubBabListTableProps) => {
 					</Button>
 				</div>
 			</div>
-			<div className="rounded-md border">
+			<div>
 				<Table className="table-fixed">
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (

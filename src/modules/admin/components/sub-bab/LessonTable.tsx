@@ -44,7 +44,7 @@ export const columns = [
 	columnHelper.accessor("number", {
 		header: () => <div className="text-center">Nomor Pelajaran</div>,
 		cell: (info) => <div className="text-center">{info.getValue()}</div>,
-		size: 30,
+		size: 50,
 	}),
 	columnHelper.accessor("contentType", {
 		header: () => <div className="text-center">Tipe</div>,
@@ -112,7 +112,7 @@ const LessonTable: React.FC<{
 				</div>
 			</div>
 
-			<div className="rounded-md border">
+			<div>
 				<Table className="table-fixed">
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (

@@ -74,7 +74,7 @@ const StudentDetailPage: NextPageWithLayout = () => {
 					</div>
 				</div>
 
-				<div className="rounded-md border">
+				<div>
 					<StudentBabTable
 						onRowClick={(data) => {
 							setBabId(data.id);
@@ -109,7 +109,7 @@ const DetailBabDialog: FC<{
 					<DialogDescription></DialogDescription>
 				</DialogHeader>
 				<div className="grid gap-4 py-4">
-					<div className="rounded-md border">
+					<div>
 						<StudentSubBabTable key={babId} babId={babId} />
 					</div>
 				</div>

@@ -109,7 +109,7 @@ const StudentPage: NextPageWithLayout = () => {
 					<h1 className="text-3xl font-semibold">List Siswa</h1>
 				</div>
 
-				<div className="rounded-md border">
+				<div>
 					<Table className="table-fixed">
 						<TableHeader>
 							{table.getHeaderGroups().map((headerGroup) => (
