@@ -1,4 +1,5 @@
 import { Spinner } from "@/common/components/ui/spinner";
+import useStudent from "../../hooks/useStudent";
 import useSubBabList, { type SubBabWithLesson } from "../../hooks/useSubBab";
 import ProgressItem from "./ProgressItem";
 
@@ -58,6 +59,8 @@ const calculateLessonItem = (
 const Lessons = (props: LessonsProps) => {
 	const { babNumber } = props;
 	const { subBabList, loadingSubBabList } = useSubBabList({ babNumber });
+	const { student } = useStudent();
+	const latestBabNumber = student?.latestBab?.number ?? 1;
 
 	if (loadingSubBabList) {
 		return (
@@ -70,10 +73,11 @@ const Lessons = (props: LessonsProps) => {
 	return (
 		<>
 			{subBabList.map((subBab, subBabIndex) => {
-				let previousLessonCompleted = isPreviousLessonCompleted(
-					subBabIndex,
-					subBabList,
-				);
+				let previousLessonCompleted =
+					subBabIndex === 0
+						? // For the very first sub-bab in a bab, require the bab to be unlocked (previous bab completed)
+							babNumber <= latestBabNumber
+						: isPreviousLessonCompleted(subBabIndex, subBabList);
 
 				return (
 					<section
