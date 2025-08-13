@@ -5,8 +5,13 @@ import type React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-
+import GoogleDrivePdfViewer from "@/common/components/GoogleDrivePdfViewer";
 import { Button } from "@/common/components/ui/button";
+import {
+	Collapsible,
+	CollapsibleContent,
+	CollapsibleTrigger,
+} from "@/common/components/ui/collapsible";
 import {
 	Form,
 	FormControl,
@@ -204,6 +209,21 @@ const SettingForm: React.FC<{
 							<FormDescription>
 								URL ini akan digunakan untuk mengakses buku manual admin.
 							</FormDescription>
+							{field.value && (
+								<Collapsible>
+									<CollapsibleTrigger asChild>
+										<Button variant="outline" size="sm" type="button">
+											Preview PDF
+										</Button>
+									</CollapsibleTrigger>
+									<CollapsibleContent className="mt-2">
+										<GoogleDrivePdfViewer
+											pdfUrl={field.value}
+											title="Admin Manual Book PDF Preview"
+										/>
+									</CollapsibleContent>
+								</Collapsible>
+							)}
 							<FormMessage />
 						</FormItem>
 					)}
@@ -236,6 +256,21 @@ const SettingForm: React.FC<{
 							<FormDescription>
 								URL ini akan digunakan untuk mengakses buku manual siswa.
 							</FormDescription>
+							{field.value && (
+								<Collapsible>
+									<CollapsibleTrigger asChild>
+										<Button variant="outline" size="sm" type="button">
+											Preview PDF
+										</Button>
+									</CollapsibleTrigger>
+									<CollapsibleContent className="mt-2">
+										<GoogleDrivePdfViewer
+											pdfUrl={field.value}
+											title="Student Manual Book PDF Preview"
+										/>
+									</CollapsibleContent>
+								</Collapsible>
+							)}
 							<FormMessage />
 						</FormItem>
 					)}
