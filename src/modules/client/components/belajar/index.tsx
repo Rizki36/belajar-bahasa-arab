@@ -23,6 +23,7 @@ const Bab = (props: BabProps) => {
 				<Header babNumber={babNumber} />
 				<Lessons babNumber={babNumber} />
 			</div>
+			{/* right content */}
 			<div
 				className={cn(
 					"flex",
