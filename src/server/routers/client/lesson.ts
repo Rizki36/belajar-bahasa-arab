@@ -65,16 +65,56 @@ export const lessonRoute = router({
 			// Access validation logic
 			let canAccess = false;
 
-			// Case 1: First lesson of first subBab of first bab - always accessible
-			if (
-				input.babNumber === 1 &&
-				input.subBabNumber === 1 &&
-				input.lessonNumber === 0
-			) {
-				canAccess = true;
+			// Case 1: First lesson of first subBab of any bab
+			if (input.subBabNumber === 1 && input.lessonNumber === 0) {
+				if (input.babNumber === 1) {
+					// First bab is always accessible
+					canAccess = true;
+				} else {
+					// Check if last lesson of last subBab of previous bab is completed
+					const previousBab = await prisma.bab.findFirst({
+						where: {
+							number: input.babNumber - 1,
+						},
+					});
+
+					if (previousBab) {
+						// Find last subBab of previous bab
+						const lastSubBabOfPreviousBab = await prisma.subBab.findFirst({
+							where: {
+								babId: previousBab.id,
+							},
+							orderBy: {
+								number: "desc",
+							},
+						});
+
+						if (lastSubBabOfPreviousBab) {
+							// Find last lesson of that subBab
+							const lastLessonOfPreviousBab = await prisma.lesson.findFirst({
+								where: {
+									subBabId: lastSubBabOfPreviousBab.id,
+								},
+								orderBy: {
+									number: "desc",
+								},
+								include: {
+									studentLessonResult: {
+										where: {
+											studentId,
+										},
+									},
+								},
+							});
+
+							canAccess =
+								(lastLessonOfPreviousBab?.studentLessonResult?.length ?? 0) > 0;
+						}
+					}
+				}
 			}
-			// Case 2: First lesson of a subBab (not the first subBab)
-			else if (input.lessonNumber === 1 && input.subBabNumber > 1) {
+			// Case 2: First lesson of a subBab (not the first subBab within same bab)
+			else if (input.lessonNumber === 0 && input.subBabNumber > 1) {
 				// Check if last lesson of previous subBab is completed
 				const previousSubBab = await prisma.subBab.findFirst({
 					where: {
@@ -104,7 +144,7 @@ export const lessonRoute = router({
 						(lastLessonOfPreviousSubBab?.studentLessonResult?.length ?? 0) > 0;
 				}
 			}
-			// Case 3: Not first lesson of subBab
+			// Case 3: Not first lesson of subBab (lessonNumber > 0)
 			else if (input.lessonNumber > 0) {
 				// Check if previous lesson in same subBab is completed
 				const previousLesson = await prisma.lesson.findFirst({
@@ -123,6 +163,7 @@ export const lessonRoute = router({
 
 				canAccess = (previousLesson?.studentLessonResult?.length ?? 0) > 0;
 			}
+
 
 			return {
 				bab,
