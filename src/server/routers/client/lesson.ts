@@ -164,7 +164,6 @@ export const lessonRoute = router({
 				canAccess = (previousLesson?.studentLessonResult?.length ?? 0) > 0;
 			}
 
-
 			return {
 				bab,
 				subBab,
