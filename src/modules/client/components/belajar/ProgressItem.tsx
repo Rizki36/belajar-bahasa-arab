@@ -5,6 +5,7 @@ import { cn } from "@/common/utils";
 import StarIcon from "../../icons/Star";
 
 type ProgressItemProps = {
+	id?: string;
 	starCount: number;
 	href: string;
 	style: React.CSSProperties;
@@ -16,6 +17,7 @@ type ProgressItemProps = {
 
 const ProgressItem = (props: ProgressItemProps) => {
 	const {
+		id,
 		starCount,
 		href,
 		style,
@@ -68,6 +70,7 @@ const ProgressItem = (props: ProgressItemProps) => {
 
 	return (
 		<button
+			id={id}
 			className={cn("group relative items-center flex flex-col", className, {
 				"cursor-pointer": !disabled,
 				"cursor-not-allowed": disabled,

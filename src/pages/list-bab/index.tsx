@@ -1,9 +1,9 @@
 import { CaretLeftIcon, ReloadIcon } from "@radix-ui/react-icons";
+import { type StepType, TourProvider, useTour } from "@reactour/tour";
 import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-
 import Button3D from "@/common/components/ui/3d-button";
 import { Button } from "@/common/components/ui/button";
 import { Progress } from "@/common/components/ui/progress";
@@ -13,13 +13,21 @@ import { cn } from "@/common/utils";
 import useBabList from "@/modules/client/hooks/useBabList";
 import useStudent from "@/modules/client/hooks/useStudent";
 import { trpc } from "@/utils/trpc";
-
 import type { NextPageWithLayout } from "../_app";
+
+const steps: StepType[] = [
+	{
+		selector: "#continue-bab-1-link",
+		content: "Klik di sini untuk melanjutkan bab pertama kamu!",
+		position: "bottom",
+	},
+];
 
 const ListBabPage: NextPageWithLayout = () => {
 	const trpcUtils = trpc.useUtils();
 	const { mutate } = trpc.student.learn.checkLatestBab.useMutation();
 	const [shouldCheckNextBab, setShouldCheckNextBab] = useState(false);
+	const { setIsOpen } = useTour();
 
 	const { student, loadingStudent } = useStudent();
 	const { babList, loadingBabList, errorBabList } = useBabList();
@@ -53,6 +61,12 @@ const ListBabPage: NextPageWithLayout = () => {
 			},
 		});
 	}, [shouldCheckNextBab]);
+
+	useEffect(() => {
+		if (babList.length > 0) {
+			setIsOpen(true);
+		}
+	}, [babList]);
 
 	return (
 		<>
@@ -130,6 +144,7 @@ const ListBabPage: NextPageWithLayout = () => {
 														}}
 													/>
 													<Link
+														id={`continue-bab-${bab.number}-link`}
 														href={{
 															pathname: "/belajar/[babNumber]",
 															query: { babNumber: bab.number },
@@ -162,7 +177,11 @@ const ListBabPage: NextPageWithLayout = () => {
 };
 
 ListBabPage.getLayout = (page) => {
-	return <ClientMainLayout>{page}</ClientMainLayout>;
+	return (
+		<ClientMainLayout>
+			<TourProvider steps={steps}>{page}</TourProvider>
+		</ClientMainLayout>
+	);
 };
 
 export default ListBabPage;

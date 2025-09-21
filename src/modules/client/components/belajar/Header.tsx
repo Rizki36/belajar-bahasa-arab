@@ -33,6 +33,7 @@ const Header = (props: HeaderProps) => {
 					</div>
 					<div className="shrink-0">
 						<Link
+							id="list-bab-link"
 							href="/list-bab"
 							className="relative inline-flex items-center justify-center px-3 py-1 overflow-hidden font-medium text-white transition duration-300 ease-out border-2 border-white rounded-md shadow-md group"
 						>

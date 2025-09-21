@@ -1,3 +1,5 @@
+import { useTour } from "@reactour/tour";
+import { useEffect } from "react";
 import { Spinner } from "@/common/components/ui/spinner";
 import useSubBabList, { type SubBabWithLesson } from "../../hooks/useSubBab";
 import ProgressItem from "./ProgressItem";
@@ -58,6 +60,13 @@ const calculateLessonItem = (
 const Lessons = (props: LessonsProps) => {
 	const { babNumber } = props;
 	const { subBabList, loadingSubBabList } = useSubBabList({ babNumber });
+	const { setIsOpen } = useTour();
+
+	useEffect(() => {
+		if (subBabList.length > 0) {
+			setIsOpen(true);
+		}
+	}, [subBabList, loadingSubBabList]);
 
 	if (loadingSubBabList) {
 		return (
@@ -110,6 +119,7 @@ const Lessons = (props: LessonsProps) => {
 
 							return (
 								<ProgressItem
+									id={`lesson-${item.number}`}
 									key={item.id}
 									className="last:!mb-0"
 									href={`/belajar/${babNumber}/${subBab.number}/${item.number}`}
