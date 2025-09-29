@@ -55,14 +55,46 @@ const ProgressItem = (props: ProgressItemProps) => {
 				);
 			case "mixed":
 			case "quiz":
-			default:
+			default: {
+				const isShouldPulse = (currentStarNumber: number) => {
+					return starCount <= currentStarNumber && !disabled;
+				};
+				const shouldBounce =
+					(isCompleted && starCount > 0) || (starCount <= 0 && !disabled);
+				const shouldInfiniteBounce = starCount <= 0 && !disabled;
+
 				return (
-					<div className="flex items-center justify-center">
-						<StarIcon className="size-4 mt-1" filled={starCount > 0} />
-						<StarIcon className="size-4 -mt-1.5" filled={starCount > 1} />
-						<StarIcon className="size-4 mt-1" filled={starCount > 2} />
+					<div className="flex items-center justify-center relative">
+						<StarIcon
+							className="size-4 mt-1"
+							filled={starCount > 0}
+							enablePulse={isShouldPulse(1)}
+							enableShine={true}
+							enableBounce={shouldBounce}
+							enableInfiniteBounce={shouldInfiniteBounce}
+							animationDelay={100}
+						/>
+						<StarIcon
+							className="size-4 -mt-1.5"
+							filled={starCount > 1}
+							enablePulse={isShouldPulse(2)}
+							enableShine={true}
+							enableBounce={shouldBounce}
+							enableInfiniteBounce={shouldInfiniteBounce}
+							animationDelay={250}
+						/>
+						<StarIcon
+							className="size-4 mt-1"
+							filled={starCount > 2}
+							enablePulse={isShouldPulse(3)}
+							enableShine={true}
+							enableBounce={shouldBounce}
+							enableInfiniteBounce={shouldInfiniteBounce}
+							animationDelay={400}
+						/>
 					</div>
 				);
+			}
 		}
 	};
 
@@ -82,13 +114,18 @@ const ProgressItem = (props: ProgressItemProps) => {
 		>
 			<div
 				className={cn(
-					"transform duration-100 w-[60px] h-[56px] rounded-[100%]",
+					"transform duration-100 w-[60px] h-[56px] rounded-[100%] relative",
 					{
 						"bg-primary-dark1": !disabled,
 						"bg-[#cbcbcb]": disabled,
 					},
 				)}
 			>
+				{/* Ping animation ring */}
+				{!disabled && !isCompleted && (
+					<div className="absolute inset-0 rounded-full bg-primary/50 animate-ping opacity-50" />
+				)}
+
 				<div
 					className={cn(
 						"w-full transform duration-100 flex items-center justify-center rounded-[100%] h-[48px] bg-primary relative",
