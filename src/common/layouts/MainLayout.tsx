@@ -13,9 +13,15 @@ const ClientMainLayout = (props: ClientMainLayoutProps) => {
 	const { children } = props;
 
 	return (
-		<div className={cn("flex relative", "md:pl-[60px]", "lg:pl-[250px]")}>
+		<div
+			className={cn(
+				"flex relative bg-gradient-to-b from-white to-primary/5 min-h-screen",
+				"md:pl-[60px]",
+				"lg:pl-[250px]",
+			)}
+		>
 			<SidebarDesktop />
-			<div className="flex-1 pb-16 md:pb-0">{children}</div>
+			<div className="flex-1 pb-[53px] md:pb-0">{children}</div>
 			<div className="flex py-3 justify-center gap-x-16 md:hidden border-t shadow-lg bg-white fixed bottom-0 inset-x-0 z-50">
 				{menuItems.map((menu) => {
 					return (
