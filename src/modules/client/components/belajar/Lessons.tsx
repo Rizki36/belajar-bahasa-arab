@@ -39,10 +39,13 @@ const calculateLessonItem = (
 	const isCompleted = !!lessonResult;
 
 	// Determine if this lesson should be enabled
+	// Check that all previous lessons in this sub-bab are completed
 	const isEnabled =
 		index === 0
 			? previousLessonCompleted
-			: !!subBab.lesson[index - 1]?.studentLessonResult?.[0];
+			: subBab.lesson
+					.slice(0, index)
+					.every((lesson) => !!lesson?.studentLessonResult?.[0]);
 
 	// Return all calculated values
 	return {
