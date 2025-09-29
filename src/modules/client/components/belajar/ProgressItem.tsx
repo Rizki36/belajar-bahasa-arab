@@ -1,6 +1,7 @@
 import { FileIcon, PlayCircleIcon } from "lucide-react";
 import { useRouter } from "next/router";
 import type React from "react";
+import { toast } from "sonner";
 import { cn } from "@/common/utils";
 import StarIcon from "../../icons/Star";
 
@@ -105,11 +106,14 @@ const ProgressItem = (props: ProgressItemProps) => {
 				"cursor-not-allowed": disabled,
 			})}
 			style={style}
-			disabled={disabled}
 			onClick={() => {
 				if (!disabled) {
 					router.push(href);
+					return;
 				}
+
+				// Show toast notification when item is disabled
+				toast.warning("Selesaikan pembelajaran sebelumnya untuk membuka ini");
 			}}
 		>
 			<div
@@ -117,7 +121,7 @@ const ProgressItem = (props: ProgressItemProps) => {
 					"transform duration-100 w-[60px] h-[56px] rounded-[100%] relative",
 					{
 						"bg-primary-dark1": !disabled,
-						"bg-[#cbcbcb]": disabled,
+						"bg-[#828282]": disabled,
 					},
 				)}
 			>
@@ -132,7 +136,7 @@ const ProgressItem = (props: ProgressItemProps) => {
 						"group-hover:h-[44px]",
 						"group-active:h-[50px]",
 						{
-							"bg-[#e0e0e0]": disabled,
+							"bg-[#aaaaaa]": disabled,
 						},
 					)}
 				>
