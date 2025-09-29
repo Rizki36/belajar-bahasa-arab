@@ -136,7 +136,7 @@ const ProgressItem = (props: ProgressItemProps) => {
 						"group-hover:h-[44px]",
 						"group-active:h-[50px]",
 						{
-							"bg-[#aaaaaa]": disabled,
+							"bg-[#c3c3c3]": disabled,
 						},
 					)}
 				>
