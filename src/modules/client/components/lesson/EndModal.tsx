@@ -4,6 +4,7 @@ import { useEffect } from "react";
 
 import { Button } from "@/common/components/ui/button";
 import { Dialog, DialogContent } from "@/common/components/ui/dialog";
+import { useConfetti } from "@/common/hooks/useConfetti";
 import { trpc } from "@/utils/trpc";
 
 import useStudent from "../../hooks/useStudent";
@@ -21,6 +22,7 @@ const EndModal = (props: EndModalProps) => {
 
 	const router = useRouter();
 	const { student } = useStudent();
+	const { fireCelebrationConfetti } = useConfetti();
 	const { mutate: updateScore, isPending: updateScorePending } =
 		trpc.student.self.updateScore.useMutation();
 	const trpcUtils = trpc.useUtils();
@@ -39,6 +41,18 @@ const EndModal = (props: EndModalProps) => {
 			},
 		);
 	}, [open, star, student?.id]);
+
+	// Trigger confetti when modal opens and user has at least 1 star
+	useEffect(() => {
+		if (open && star >= 1) {
+			// Add a small delay to let the modal render first
+			const timer = setTimeout(() => {
+				fireCelebrationConfetti();
+			}, 300);
+
+			return () => clearTimeout(timer);
+		}
+	}, [open, star, fireCelebrationConfetti]);
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>

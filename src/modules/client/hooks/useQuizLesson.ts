@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useConfetti } from "@/common/hooks/useConfetti";
 import useSystemSetting from "@/common/hooks/useSystemSetting";
 import useStudent from "@/modules/client/hooks/useStudent";
 import { type RouterOutput, trpc } from "@/utils/trpc";
@@ -37,6 +38,7 @@ const useQuizLesson = (props: UseQuizLessonProps) => {
 	const trpcUtils = trpc.useUtils();
 	const { student } = useStudent();
 	const { config, loading: loadingConfig } = useSystemSetting();
+	const { fireSuccessConfetti } = useConfetti();
 
 	const { data: questionList, isLoading: loadingQuestions } =
 		trpc.student.lesson.listQuestion.useQuery(
@@ -147,6 +149,8 @@ const useQuizLesson = (props: UseQuizLessonProps) => {
 					}
 
 					if (result.isCorrect) {
+						// Trigger confetti animation for correct answers
+						fireSuccessConfetti();
 						setQuestionIndex((prev) => prev + 1);
 						form.reset();
 					}
