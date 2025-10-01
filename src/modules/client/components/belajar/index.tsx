@@ -1,7 +1,3 @@
-import { type StepType, useTour } from "@reactour/tour";
-import { useEffect } from "react";
-import TourWrapper from "@/common/components/TourWrapper";
-import { useTourGuide } from "@/common/hooks/useTourGuide";
 import { cn } from "@/common/utils";
 import Header from "./Header";
 import Lessons from "./Lessons";
@@ -12,48 +8,6 @@ import StatSection from "./StatSection";
 type BabProps = {
 	babNumber: number;
 };
-const steps: StepType[] = [
-	{
-		selector: '[data-tut="reactour__pdf"]',
-		content: (
-			<div className="text-center">
-				<h3 className="text-lg font-bold text-gray-800 mb-2">📖 Baca Materi</h3>
-				<p className="text-gray-600 text-sm">
-					Ini adalah bagian materi pembelajaran. Baca materi terlebih dahulu
-					sebelum mengerjakan kuis untuk memahami pelajaran dengan baik.
-				</p>
-			</div>
-		),
-	},
-	{
-		selector: '[data-tut="reactour__quiz"]',
-		content: (
-			<div className="text-center">
-				<h3 className="text-lg font-bold text-gray-800 mb-2">
-					⭐ Kuis & Video
-				</h3>
-				<p className="text-gray-600 text-sm">
-					Setelah membaca materi, kerjakan kuis atau tonton video pembelajaran.
-					Kumpulkan bintang untuk membuka pelajaran berikutnya!
-				</p>
-			</div>
-		),
-	},
-	{
-		selector: '[data-tut="reactour__credits"]',
-		content: (
-			<div className="text-center">
-				<h3 className="text-lg font-bold text-gray-800 mb-2">
-					👨‍🏫 Tim Penyusun
-				</h3>
-				<p className="text-gray-600 text-sm">
-					Aplikasi ini disusun oleh tim ahli pendidikan bahasa Arab yang
-					berpengalaman. Selamat belajar!
-				</p>
-			</div>
-		),
-	},
-];
 
 const Content = (props: BabProps) => {
 	const { babNumber } = props;
@@ -102,15 +56,7 @@ const Content = (props: BabProps) => {
 };
 
 const Bab = (props: BabProps) => {
-	return (
-		<TourWrapper
-			pageId="belajar-page"
-			steps={steps}
-			className="reactour-custom"
-		>
-			<Content {...props} />
-		</TourWrapper>
-	);
+	return <Content {...props} />;
 };
 
 export default Bab;
