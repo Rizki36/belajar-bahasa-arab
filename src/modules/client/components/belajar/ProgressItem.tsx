@@ -93,7 +93,10 @@ const getContent = (props: ProgressItemProps) => {
 
 	if (contentType === "pdf") {
 		return (
-			<div className="group mx-auto max-w-64 relative w-full border-2 border-primary rounded-[16px] bg-primary">
+			<div
+				data-tut="reactour__pdf"
+				className="group mx-auto max-w-64 relative w-full border-2 border-primary rounded-[16px] bg-primary"
+			>
 				<div className="relative min-h-16 py-3 px-5 flex items-center justify-between gap-x-8 bg-white rounded-[14px] mb-1">
 					<div className="text-left font-bold text-neutral-600">
 						{isCompleted ? (
@@ -137,6 +140,7 @@ const getContent = (props: ProgressItemProps) => {
 
 	return (
 		<div
+			data-tut="reactour__quiz"
 			className={cn(
 				"transform duration-100 w-[60px] h-[56px] rounded-[100%] relative",
 				{

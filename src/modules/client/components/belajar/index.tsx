@@ -1,3 +1,7 @@
+import { type StepType, useTour } from "@reactour/tour";
+import { useEffect } from "react";
+import TourWrapper from "@/common/components/TourWrapper";
+import { useTourGuide } from "@/common/hooks/useTourGuide";
 import { cn } from "@/common/utils";
 import Header from "./Header";
 import Lessons from "./Lessons";
@@ -8,8 +12,50 @@ import StatSection from "./StatSection";
 type BabProps = {
 	babNumber: number;
 };
+const steps: StepType[] = [
+	{
+		selector: '[data-tut="reactour__pdf"]',
+		content: (
+			<div className="text-center">
+				<h3 className="text-lg font-bold text-gray-800 mb-2">📖 Baca Materi</h3>
+				<p className="text-gray-600 text-sm">
+					Ini adalah bagian materi pembelajaran. Baca materi terlebih dahulu
+					sebelum mengerjakan kuis untuk memahami pelajaran dengan baik.
+				</p>
+			</div>
+		),
+	},
+	{
+		selector: '[data-tut="reactour__quiz"]',
+		content: (
+			<div className="text-center">
+				<h3 className="text-lg font-bold text-gray-800 mb-2">
+					⭐ Kuis & Video
+				</h3>
+				<p className="text-gray-600 text-sm">
+					Setelah membaca materi, kerjakan kuis atau tonton video pembelajaran.
+					Kumpulkan bintang untuk membuka pelajaran berikutnya!
+				</p>
+			</div>
+		),
+	},
+	{
+		selector: '[data-tut="reactour__credits"]',
+		content: (
+			<div className="text-center">
+				<h3 className="text-lg font-bold text-gray-800 mb-2">
+					👨‍🏫 Tim Penyusun
+				</h3>
+				<p className="text-gray-600 text-sm">
+					Aplikasi ini disusun oleh tim ahli pendidikan bahasa Arab yang
+					berpengalaman. Selamat belajar!
+				</p>
+			</div>
+		),
+	},
+];
 
-const Bab = (props: BabProps) => {
+const Content = (props: BabProps) => {
 	const { babNumber } = props;
 
 	return (
@@ -40,7 +86,10 @@ const Bab = (props: BabProps) => {
 					<div className="hidden lg:block">
 						<ShareSection url={window?.location?.href ?? ""} />
 					</div>
-					<div className="text-xs text-neutral-500 hidden lg:block">
+					<div
+						data-tut="reactour__credits"
+						className="text-xs text-neutral-500 hidden lg:block"
+					>
 						<div>Disusun oleh:</div>
 						<div>Abdul Ghofur, S.Pd.I., M.Pd.</div>
 						<div>Siti Durotun Naseha, M.Pd</div>
@@ -49,6 +98,18 @@ const Bab = (props: BabProps) => {
 				</div>
 			</div>
 		</section>
+	);
+};
+
+const Bab = (props: BabProps) => {
+	return (
+		<TourWrapper
+			pageId="belajar-page"
+			steps={steps}
+			className="reactour-custom"
+		>
+			<Content {...props} />
+		</TourWrapper>
 	);
 };
 

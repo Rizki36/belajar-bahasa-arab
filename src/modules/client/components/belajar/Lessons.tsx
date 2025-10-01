@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { Spinner } from "@/common/components/ui/spinner";
+import { useTourGuide } from "@/common/hooks/useTourGuide";
 import useSubBabList, { type SubBabWithLesson } from "../../hooks/useSubBab";
 import ProgressItem from "./ProgressItem";
 
@@ -61,6 +63,15 @@ const calculateLessonItem = (
 const Lessons = (props: LessonsProps) => {
 	const { babNumber } = props;
 	const { subBabList, loadingSubBabList } = useSubBabList({ babNumber });
+
+	const { shouldShowTour, setIsOpen } = useTourGuide("belajar-page");
+
+	useEffect(() => {
+		// Only show tour if user hasn't completed it before
+		if (shouldShowTour() && !loadingSubBabList) {
+			setIsOpen(true, 500);
+		}
+	}, [loadingSubBabList]);
 
 	if (loadingSubBabList) {
 		return (
