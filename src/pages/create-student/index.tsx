@@ -15,6 +15,7 @@ const CreateStudentPage: NextPageWithLayout = () => {
 	useEffect(() => {
 		mutate(undefined, {
 			onSuccess: async () => {
+				localStorage.removeItem("TOUR_STORAGE_KEY");
 				await router.push("/belajar");
 			},
 			onError: async (e) => {

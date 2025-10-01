@@ -1,7 +1,7 @@
 import { useTour } from "@reactour/tour";
 import { useLocalStorage } from "./useLocalStorage";
 
-const TOUR_STORAGE_KEY = "belajar-bahasa-arab-tours";
+export const TOUR_STORAGE_KEY = "belajar-bahasa-arab-tours";
 
 type PageTourState = {
     hasCompletedTour: boolean;
