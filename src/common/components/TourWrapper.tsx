@@ -3,8 +3,10 @@ import {
 	type StepType,
 	TourProvider,
 } from "@reactour/tour";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import type React from "react";
 import { useTourGuide } from "@/common/hooks/useTourGuide";
+import { Button } from "./ui/button";
 
 type TourWrapperProps = {
 	children: React.ReactNode;
@@ -87,6 +89,10 @@ const TourWrapper: React.FC<TourWrapperProps> = ({
 	const handleTourClose = () => {
 		markTourAsCompleted();
 	};
+	const disableBody = (target: Element | HTMLElement) =>
+		disableBodyScroll(target);
+	const enableBody = (target: Element | HTMLElement) =>
+		enableBodyScroll(target);
 
 	return (
 		<TourProvider
@@ -99,10 +105,30 @@ const TourWrapper: React.FC<TourWrapperProps> = ({
 			disableDotsNavigation={false}
 			disableKeyboardNavigation={false}
 			className={className}
-			beforeClose={() => {
+			afterOpen={(element) => {
+				disableBody(element!);
+			}}
+			beforeClose={(element) => {
 				markTourAsCompleted();
+				enableBody(element!);
 				return Promise.resolve();
 			}}
+			position="bottom"
+			nextButton={({
+				currentStep,
+				stepsLength,
+				Button: DefaultButton,
+				setIsOpen,
+			}) =>
+				stepsLength - 1 === currentStep ? (
+					<Button variant="default" onClick={() => setIsOpen(false)}>
+						Selesai
+					</Button>
+				) : (
+					<DefaultButton />
+				)
+			}
+			onClickMask={() => null}
 		>
 			{children}
 		</TourProvider>
