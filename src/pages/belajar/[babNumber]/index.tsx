@@ -35,20 +35,6 @@ const steps: StepType[] = [
 			</div>
 		),
 	},
-	{
-		selector: '[data-tut="reactour__credits"]',
-		content: (
-			<div className="text-center">
-				<h3 className="text-lg font-bold text-gray-800 mb-2">
-					👨‍🏫 Tim Penyusun
-				</h3>
-				<p className="text-gray-600 text-sm">
-					Aplikasi ini disusun oleh tim ahli pendidikan bahasa Arab yang
-					berpengalaman. Selamat belajar!
-				</p>
-			</div>
-		),
-	},
 ];
 
 const SpecificBabPage: NextPageWithLayout = () => {
