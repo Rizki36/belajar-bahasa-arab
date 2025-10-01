@@ -149,7 +149,7 @@ const Content = () => {
 								{leaderboard.slice(3).map((item, index) => (
 									<div
 										key={`leaderboard-${index}`}
-										className="flex bg-primary w-[600px] items-center rounded-xl"
+										className="flex bg-primary w-full md:max-w-[600px] items-center rounded-xl"
 									>
 										<div className="w-9 -rotate-90 flex items-center justify-center rounded-full text-white bg-primary">
 											{index + 4}
