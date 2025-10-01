@@ -9,7 +9,7 @@ type BabProps = {
 	babNumber: number;
 };
 
-const Content = (props: BabProps) => {
+const Bab = (props: BabProps) => {
 	const { babNumber } = props;
 
 	return (
@@ -53,10 +53,6 @@ const Content = (props: BabProps) => {
 			</div>
 		</section>
 	);
-};
-
-const Bab = (props: BabProps) => {
-	return <Content {...props} />;
 };
 
 export default Bab;
