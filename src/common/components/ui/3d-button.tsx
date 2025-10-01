@@ -136,12 +136,14 @@ const Button3D: FC<Button3DProps> = ({
 	children,
 	disabled,
 	onClick,
+	...props
 }) => {
 	return (
 		<button
 			disabled={disabled}
 			className={cn(button3DVariants({ variant, className }))}
 			onClick={onClick}
+			{...props}
 		>
 			<span className={cn(ShadowVariants({ variant }))}></span>
 			<span className={cn(MiddleVariants({ variant }))}></span>
