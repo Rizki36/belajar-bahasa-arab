@@ -43,9 +43,10 @@ Use **Yarn v1** (`yarn`). The lockfile is `yarn.lock` v1.
 
 ## Environment / secrets
 
-- `.env.local` is **committed to git** and contains real-looking credentials. Despite `.gitignore` listing `.env*.local`, the file is tracked. Do not assume it is safe to edit or expose.
+- `.env.local` is **gitignored and untracked**. It is never committed. Copy `.env.example` to `.env.local` and fill in your own values.
 - Required env vars: `DATABASE_URL`, `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`, `NEXTAUTH_SECRET`, `CREATE_ADMIN_SECRET`.
 - Prisma migrate/studio commands explicitly source `.env.local`.
+- The previously tracked `.env.local` has been removed from git. Internal secrets (`NEXTAUTH_SECRET`, `CREATE_ADMIN_SECRET`) have been rotated to new random values; replace the Google OAuth credentials and database URL with your own values.
 
 ## Build / deploy quirks
 
