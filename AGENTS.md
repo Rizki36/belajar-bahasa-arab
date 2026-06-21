@@ -21,8 +21,8 @@ Use **Yarn v1** (`yarn`). The lockfile is `yarn.lock` v1.
 | `yarn prisma:studio` | `prisma studio`, loading `.env.local` |
 | `yarn prisma:generate` | Generate Prisma client |
 | `yarn vercel-build` | Vercel entrypoint: `prisma generate && prisma migrate deploy && biome check ./src && next build` |
-
-There is **no test runner** configured and no test files in the repo.
+| `yarn test` | Run Vitest in watch mode |
+| `yarn test:run` | Run Vitest once (CI friendly) |
 
 ## Lint / format
 
